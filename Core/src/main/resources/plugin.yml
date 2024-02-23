@@ -1,0 +1,81 @@
+name: Core
+main: io.github.bindglam.core.Core
+version: 1.0
+api-version: 1.20
+depend:
+  - DSMAPI
+  - Multiverse-Core
+  - Economy
+  - LuckPerms
+  - ItemsAdder
+commands:
+  usershop:
+    aliases:
+      - 유저상점
+  crossemote:
+    aliases:
+      - 감정표현
+  tutorial:
+    aliases:
+      - 튜토리얼
+  stats:
+    aliases:
+      - 스텟
+  stock:
+    aliases:
+      - 주식
+  shop:
+    aliases:
+      - 상점
+  trashbin:
+    aliases:
+      - 쓰레기통
+      - Tmfprlxhd
+  home:
+    aliases:
+      - 홈
+      - gha
+  sethome:
+    aliases:
+      - 셋홈
+      - tptgha
+  tpa:
+    aliases:
+      - 티피에이
+      - xlvldpdl
+  tpaccept:
+    aliases:
+      - 티피수락
+      - xlvltnfkr
+  menu:
+    aliases:
+      - 메뉴
+  backto:
+  money:
+    aliases:
+      - 돈
+      - 소지금
+  deposit:
+    permission: op
+  withdraw:
+    permission: op
+  clearbank:
+    permission: op
+  basicitems:
+    aliases:
+      - 기본템
+  resetmaxhealth:
+    permission: op
+  floorcleaner:
+    permission: op
+    aliases:
+      - 바닥청소
+  yescmd:
+    aliases:
+      - 예
+  nocmd:
+    aliases:
+      - 아니요
+  check:
+    aliases:
+      - 수표

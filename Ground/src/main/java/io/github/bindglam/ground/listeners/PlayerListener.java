@@ -1,0 +1,163 @@
+package io.github.bindglam.ground.listeners;
+
+import io.github.bindglam.ground.GroundManager;
+import io.github.bindglam.ground.events.GroundEnterEvent;
+import io.github.bindglam.ground.events.GroundExitEvent;
+import io.github.bindglam.ground.utils.ParticleUtil;
+import io.papermc.paper.event.entity.EntityMoveEvent;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.util.Vector;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
+public class PlayerListener implements Listener {
+    private static final HashMap<String, Location> inGrounds = new HashMap<>();
+
+    @EventHandler
+    public void onMove(PlayerMoveEvent event){
+        Player player = event.getPlayer();
+
+        List<Object> data = GroundManager.isInGround(player);
+        if(data != null){
+            player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, (Location) data.get(1), 1, 0f, 0f, 0f, 0);
+            for(int x = -8; x < 8; x++) {
+                player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, ((Location) data.get(1)).getX() + x, player.getLocation().getY(), (float) ((Location) data.get(1)).getZ() + 8, 1, 0f, 0f, 0f, 0);
+                player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, ((Location) data.get(1)).getX() + x, player.getLocation().getY(), (float) ((Location) data.get(1)).getZ() - 8, 1, 0f, 0f, 0f, 0);
+            }
+            for(int z = -8; z < 8; z++) {
+                player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, ((Location) data.get(1)).getX() + 8, player.getLocation().getY(), (float) ((Location) data.get(1)).getZ() + z, 1, 0f, 0f, 0f, 0);
+                player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, ((Location) data.get(1)).getX() - 8, player.getLocation().getY(), (float) ((Location) data.get(1)).getZ() + z, 1, 0f, 0f, 0f, 0);
+            }
+
+            if(inGrounds.containsKey(player.getName())){
+                if(inGrounds.get(player.getName()).equals(data.get(1))) return;
+                new GroundEnterEvent(player, (Location) data.get(1), data).callEvent();
+            } else {
+                new GroundEnterEvent(player, (Location) data.get(1), data).callEvent();
+            }
+            inGrounds.put(player.getName(), (Location) data.get(1));
+        } else {
+            inGrounds.remove(player.getName());
+            new GroundExitEvent(player).callEvent();
+        }
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent event){
+        if(event.getClickedBlock() == null) return;
+        Player player = event.getPlayer();
+
+        List<Object> data = GroundManager.isInGround(event.getClickedBlock().getLocation());
+        if(data != null){
+            UUID owner = GroundManager.grounds.get((Location) data.get(1));
+            if(Objects.equals(owner, player.getUniqueId())) return;
+            if(GroundManager.grounders.containsKey((Location) data.get(1))) if(GroundManager.grounders.get((Location) data.get(1)).contains(player.getUniqueId())) return;
+
+            event.setCancelled(true);
+            player.sendMessage("§c§l이곳은 " + Bukkit.getOfflinePlayer(owner).getName() + "님의 땅입니다.");
+        }
+    }
+
+    @EventHandler
+    public void onPlace(BlockPlaceEvent event){
+        Player player = event.getPlayer();
+
+        List<Object> data = GroundManager.isInGround(event.getBlock().getLocation());
+        if(data != null){
+            UUID owner = GroundManager.grounds.get((Location) data.get(1));
+            if(Objects.equals(owner, player.getUniqueId())) return;
+            if(GroundManager.grounders.containsKey((Location) data.get(1))) if(GroundManager.grounders.get((Location) data.get(1)).contains(player.getUniqueId())) return;
+
+            event.setCancelled(true);
+            player.sendMessage("§c§l이곳은 " + Bukkit.getOfflinePlayer(owner).getName() + "님의 땅입니다.");
+        }
+    }
+
+    @EventHandler
+    public void onBreak(BlockBreakEvent event){
+        Player player = event.getPlayer();
+
+        List<Object> data = GroundManager.isInGround(event.getBlock().getLocation());
+        if(data != null){
+            UUID owner = GroundManager.grounds.get((Location) data.get(1));
+            if(Objects.equals(owner, player.getUniqueId())) return;
+            if(GroundManager.grounders.containsKey((Location) data.get(1))) if(GroundManager.grounders.get((Location) data.get(1)).contains(player.getUniqueId())) return;
+
+            event.setCancelled(true);
+            player.sendMessage("§c§l이곳은 " + Bukkit.getOfflinePlayer(owner).getName() + "님의 땅입니다.");
+        }
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageEvent event){
+        Entity entity = event.getEntity();
+
+        List<Object> data = GroundManager.isInGround(event.getEntity().getLocation());
+        if(data != null){
+            UUID owner = GroundManager.grounds.get((Location) data.get(1));
+            if(Objects.equals(owner, entity.getUniqueId())){
+                event.setCancelled(true);
+                return;
+            }
+            if(GroundManager.grounders.containsKey((Location) data.get(1)) && !Objects.equals(owner, entity.getUniqueId()))
+                if(GroundManager.grounders.get((Location) data.get(1)).contains(entity.getUniqueId())) {
+                    event.setCancelled(true);
+                }
+
+            //entity.sendMessage("§c§l이곳은 " + owner + "님의 땅입니다.");
+        }
+    }
+
+    @EventHandler
+    public void onExplosion(EntityExplodeEvent event){
+        Entity entity = event.getEntity();
+
+        List<Object> data = GroundManager.isInGround(event.getEntity().getLocation());
+        if(data != null){
+            UUID owner = GroundManager.grounds.get((Location) data.get(1));
+            if(Objects.equals(owner, entity.getUniqueId())) return;
+            if(GroundManager.grounders.containsKey((Location) data.get(1))) if(GroundManager.grounders.get((Location) data.get(1)).contains(entity.getUniqueId())) return;
+
+            event.setCancelled(true);
+            //entity.sendMessage("§c§l이곳은 " + owner + "님의 땅입니다.");
+        }
+
+        for (int i = event.blockList().size() - 1; i >= 0; i--) {
+            Block block = event.blockList().get(i);
+            List<Object> bdata = GroundManager.isInGround(block.getLocation());
+            if(bdata != null){
+                event.blockList().remove(block);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onEntityMove(EntityMoveEvent event){
+        Entity entity = event.getEntity();
+        if(entity.getType() == EntityType.ARROW){
+            List<Object> data = GroundManager.isInGround(event.getEntity().getLocation());
+            if(data != null){
+                entity.setVelocity(new Vector());
+                event.setCancelled(true);
+            }
+        }
+    }
+}
