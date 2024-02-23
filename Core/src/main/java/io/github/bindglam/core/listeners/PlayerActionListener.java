@@ -1,14 +1,17 @@
 package io.github.bindglam.core.listeners;
 
+import io.github.bindglam.core.managers.EventCoinManager;
 import io.github.bindglam.core.managers.PrivateSettingManager;
 import io.github.bindglam.core.managers.StatsManager;
 import io.github.bindglam.core.menu.core.CoreMenu;
 import io.github.bindglam.ground.GroundManager;
 import io.github.bindglam.ground.events.GroundEnterEvent;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.util.RGBLike;
 import org.bukkit.Bukkit;
@@ -63,6 +66,36 @@ public class PlayerActionListener implements Listener {
             UUID uuid = GroundManager.grounds.get((Location) data.get(1));
             player.showTitle(Title.title(Component.text(Objects.requireNonNull(Bukkit.getOfflinePlayer(uuid).getName())).color(TextColor.color(255, 255, 0)).decorate(TextDecoration.BOLD),
                     Component.text("님의 땅에 들오셨습니다!").color(NamedTextColor.WHITE), Title.Times.times(Duration.ofNanos(100), Duration.ofNanos(1000), Duration.ofNanos(100))));
+        }
+    }
+
+    @EventHandler
+    public void onChat(AsyncChatEvent event){
+        Player player = event.getPlayer();
+        String message = PlainTextComponentSerializer.plainText().serialize(event.message()).replace("[", "").replace("]", "");
+
+        if(!ServerTickListener.eventQuestionData.isEmpty()){
+            switch ((ServerTickListener.EventQuestionType) ServerTickListener.eventQuestionData.get(0)){
+                case MATH:
+                    int amount;
+                    try {
+                        amount = Integer.parseInt(message);
+                    } catch (NumberFormatException ignored){
+                        break;
+                    }
+
+                    if(amount == ((int) ServerTickListener.eventQuestionData.get(1)) + ((int) ServerTickListener.eventQuestionData.get(2))){
+                        ServerTickListener.eventQuestionData.clear();
+                        for(Player otherPlayer : Bukkit.getOnlinePlayers()){
+                            otherPlayer.sendMessage(Component.text(player.getName() + "님께서 이벤트 문제를 맞추셨습니다!").color(NamedTextColor.GREEN));
+                        }
+                        player.sendMessage(Component.text("정답입니다!").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD));
+                        if(!EventCoinManager.eventCoins.containsKey(player.getUniqueId()))
+                            EventCoinManager.eventCoins.put(player.getUniqueId(), 0);
+                        EventCoinManager.eventCoins.put(player.getUniqueId(), EventCoinManager.eventCoins.get(player.getUniqueId())+1);
+                    }
+                    break;
+            }
         }
     }
 }

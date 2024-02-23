@@ -6,6 +6,8 @@ import fr.dwightstudio.dsmapi.pages.Page;
 import fr.dwightstudio.dsmapi.pages.PageType;
 import fr.dwightstudio.dsmapi.utils.ItemCreator;
 import io.github.bindglam.core.menu.PrivateSettingMenu;
+import io.github.bindglam.core.menu.shops.DivingShopMenu;
+import io.github.bindglam.core.menu.shops.EventShopMenu;
 import io.github.bindglam.core.menu.shops.UserShopMenu;
 import io.github.bindglam.core.utils.AdvItemCreator;
 import org.bukkit.Bukkit;
@@ -34,7 +36,7 @@ public class CoreMenu extends Menu {
         pages[0] = new Page() {
             @Override
             public String getName() {
-                return "메뉴";
+                return "메뉴 ( 페이지 1 )";
             }
 
             @Override
@@ -65,6 +67,13 @@ public class CoreMenu extends Menu {
                         .getItemStack();
                 content[3][5] = new AdvItemCreator(Material.GOLD_INGOT).setDisplayName("§e§l유저 상점")
                         .getItemStack();
+                content[3][7] = new AdvItemCreator(Material.DIAMOND).setDisplayName("§9§l잠수 상점")
+                        .getItemStack();
+
+                content[4][0] = new AdvItemCreator(Material.ARROW).setDisplayName("§7§l뒤로")
+                        .getItemStack();
+                content[4][8] = new AdvItemCreator(Material.ARROW).setDisplayName("§7§l다음으로")
+                        .getItemStack();
 
                 return getPageType().flatten(content);
             }
@@ -77,6 +86,16 @@ public class CoreMenu extends Menu {
             @Override
             public void onClick(MenuView view, ClickType clickType, int slot, ItemStack itemStack) {
                 if(itemStack == null) return;
+
+                switch (slot){
+                    case 4*9:
+                        view.previousPage();
+                        break;
+
+                    case 4*9+8:
+                        view.nextPage();
+                        break;
+                }
 
                 switch (itemStack.getType()){
                     case PLAYER_HEAD:
@@ -120,14 +139,78 @@ public class CoreMenu extends Menu {
                         view.getPlayer().playSound(view.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 100f, 1.5f);
                         new UserShopMenu().open(view.getPlayer(), 0);
                         break;
+
+                    case DIAMOND:
+                        view.getPlayer().playSound(view.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 100f, 1.5f);
+                        new DivingShopMenu().open(view.getPlayer(), 0);
+                        break;
                 }
             }
         };
+        pages[1] = new Page() {
+            @Override
+            public String getName() {
+                return "메뉴 ( 페이지 2 )";
+            }
+
+            @Override
+            public ItemStack[] getContent() {
+                ItemStack[][] content = getPageType().getBlank2DArray();
+
+                for(int y = 0; y < PageType.CHEST_PLUS_PLUS.getRow(); y++){
+                    for(int x = 0; x < 9; x++){
+                        content[y][x] = new ItemCreator(Material.GRAY_STAINED_GLASS_PANE).setName("").getItem();
+                    }
+                }
+
+                content[0][0] = new AdvItemCreator(Material.PLAYER_HEAD).makeHead("discord").setDisplayName("§9§l디스코드")
+                        .getItemStack();
+                content[0][8] = new AdvItemCreator(Material.PLAYER_HEAD).makeHead(player.getName()).setDisplayName(player.getName())
+                        .getItemStack();
+                content[1][1] = new AdvItemCreator(Material.END_CRYSTAL).setDisplayName("§d§l이벤트 상점")
+                        .getItemStack();
+
+                content[4][0] = new AdvItemCreator(Material.ARROW).setDisplayName("§7§l뒤로")
+                        .getItemStack();
+                content[4][8] = new AdvItemCreator(Material.ARROW).setDisplayName("§7§l다음으로")
+                        .getItemStack();
+
+                return getPageType().flatten(content);
+            }
+
+            @Override
+            public PageType getPageType() {
+                return PageType.CHEST_PLUS_PLUS;
+            }
+
+            @Override
+            public void onClick(MenuView view, ClickType clickType, int slot, ItemStack itemStack) {
+                if(itemStack == null) return;
+
+                switch (slot){
+                    case 4*9:
+                        view.previousPage();
+                        break;
+
+                    case 4*9+8:
+                        view.nextPage();
+                        break;
+                }
+
+                switch (itemStack.getType()){
+                    case END_CRYSTAL:
+                        view.getPlayer().playSound(view.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 100f, 1.5f);
+                        new EventShopMenu().open(view.getPlayer(), 0);
+                        break;
+                }
+            }
+        };
+
         return pages;
     }
 
     @Override
     public int getPageCount() {
-        return 1;
+        return 2;
     }
 }

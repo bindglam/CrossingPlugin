@@ -38,7 +38,7 @@ public class TpACommand implements CommandExecutor {
         } else if(command.getLabel().equalsIgnoreCase("tpaccept") && tpaPlayers.containsValue(player.getName())){
             TeleportUtil.teleportAfterCooldown(sendPlayer, player.getLocation(), 5, false, true);
             player.sendMessage(Component.text("[ TPA ] ").color(TextColor.color(255, 255, 255)).decorate(TextDecoration.BOLD)
-                    .append(Component.text(args[0] + "Tpa를 수락했습니다!").color(TextColor.color(0, 255, 0))));
+                    .append(Component.text(args[0] + "님의 Tpa를 수락했습니다!").color(TextColor.color(0, 255, 0))));
             tpaPlayers.remove(sendPlayer.getName());
         }
         return false;

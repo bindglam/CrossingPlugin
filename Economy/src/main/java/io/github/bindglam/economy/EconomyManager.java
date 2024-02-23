@@ -74,37 +74,37 @@ public class EconomyManager {
     }
 
     @Deprecated
-    public static Integer getAmount(String name){
+    public static double getAmount(String name){
         checkExist(name);
         return money.get(name);
     }
 
     @Deprecated
-    public static Integer getBankAmount(String name){
+    public static double getBankAmount(String name){
         checkExistBank(name);
         return bank.get(name);
     }
 
     @Deprecated
-    public static void deposit(String name, int amount){
+    public static void deposit(String name, double amount){
         checkExist(name);
         money.put(name, money.get(name)+amount);
     }
 
     @Deprecated
-    public static void withdraw(String name, int amount){
+    public static void withdraw(String name, double amount){
         checkExist(name);
         money.put(name, money.get(name)-amount);
     }
 
     @Deprecated
-    public static void depositBank(String name, int amount){
+    public static void depositBank(String name, double amount){
         checkExistBank(name);
         bank.put(name, bank.get(name)+amount);
     }
 
     @Deprecated
-    public static void withdrawBank(String name, int amount){
+    public static void withdrawBank(String name, double amount){
         checkExistBank(name);
         bank.put(name, bank.get(name)-amount);
     }
@@ -112,52 +112,52 @@ public class EconomyManager {
     @Deprecated
     private static void checkExist(String name){
         if(!money.containsKey(name))
-            money.put(name, 0);
+            money.put(name, 0.0);
     }
 
     @Deprecated
     private static void checkExistBank(String name){
         if(!bank.containsKey(name))
-            bank.put(name, 0);
+            bank.put(name, 0.0);
     }
 
-    public static Integer getAmount(UUID name){
+    public static double getAmount(UUID name){
         checkExist(name);
         return moneyData.get(name);
     }
 
-    public static Integer getBankAmount(UUID name){
+    public static double getBankAmount(UUID name){
         checkExistBank(name);
         return bankData.get(name);
     }
 
-    public static void deposit(UUID name, int amount){
+    public static void deposit(UUID name, double amount){
         checkExist(name);
         moneyData.put(name, moneyData.get(name)+amount);
     }
 
-    public static void withdraw(UUID name, int amount){
+    public static void withdraw(UUID name, double amount){
         checkExist(name);
         moneyData.put(name, moneyData.get(name)-amount);
     }
 
-    public static void depositBank(UUID name, int amount){
+    public static void depositBank(UUID name, double amount){
         checkExistBank(name);
         bankData.put(name, bankData.get(name)+amount);
     }
 
-    public static void withdrawBank(UUID name, int amount){
+    public static void withdrawBank(UUID name, double amount){
         checkExistBank(name);
         bankData.put(name, bankData.get(name)-amount);
     }
 
     private static void checkExist(UUID name){
         if(!moneyData.containsKey(name))
-            moneyData.put(name, 0);
+            moneyData.put(name, 0.0);
     }
 
     private static void checkExistBank(UUID name){
         if(!bankData.containsKey(name))
-            bankData.put(name, 0);
+            bankData.put(name, 0.0);
     }
 }

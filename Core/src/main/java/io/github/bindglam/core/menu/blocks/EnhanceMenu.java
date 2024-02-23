@@ -2,18 +2,15 @@ package io.github.bindglam.core.menu.blocks;
 
 import dev.lone.itemsadder.api.CustomStack;
 import dev.lone.itemsadder.api.FontImages.FontImageWrapper;
-import dev.lone.itemsadder.api.FontImages.TexturedInventoryWrapper;
 import fr.dwightstudio.dsmapi.Menu;
 import fr.dwightstudio.dsmapi.MenuView;
 import fr.dwightstudio.dsmapi.pages.Page;
 import fr.dwightstudio.dsmapi.pages.PageType;
 import io.github.bindglam.core.Core;
 import io.github.bindglam.core.advancements.EnhanceAdvancement;
-import io.github.bindglam.core.items.PluginItemManager;
 import io.github.bindglam.core.utils.AdvancementUtil;
 import io.github.bindglam.core.utils.InvUtils;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
@@ -164,7 +161,25 @@ public class EnhanceMenu extends Menu {
         lore.add(0, "§e§l★☆☆☆☆☆☆☆☆☆");
         lore.add(0, "");
         lore.add(2, "");
-        updateLore(1, lore, item);
+        if (item.hasDisplayName()) {
+            if (!item.getType().isArmor() && !additionalEnhanceAbleArmors.contains(item.getDisplayName()) && !item.getType().name().contains("PICKAXE") && !item.getType().name().contains("SHOVEL") &&
+                    !item.getType().name().contains("AXE")) {
+                lore.add(2, "§b§l피해량 +10%");
+            } else if (item.getType().isArmor() || (additionalEnhanceAbleArmors.contains(item.getDisplayName()) && !item.getType().name().contains("PICKAXE") && !item.getType().name().contains("SHOVEL") &&
+                    !item.getType().name().contains("AXE"))) {
+                lore.add(2, "§6§l피해량 감소 +5%");
+            } else if ((!item.getType().isArmor() && !additionalEnhanceAbleArmors.contains(item.getDisplayName()) && item.getType().name().contains("PICKAXE")) || item.getType().name().contains("SHOVEL")) {
+                lore.add(2, "§a§l채굴 속도 +1%");
+            }
+        } else if (!item.getType().isArmor() && !item.getType().name().contains("PICKAXE") && !item.getType().name().contains("SHOVEL") &&
+                !item.getType().name().contains("AXE")) {
+            lore.add(2, "§b§l피해량 +10%");
+        } else if (item.getType().isArmor() && !item.getType().name().contains("PICKAXE") && !item.getType().name().contains("SHOVEL") &&
+                !item.getType().name().contains("AXE")) {
+            lore.add(2, "§6§l피해량 감소 +5%");
+        } else if (item.getType().name().contains("PICKAXE") || item.getType().name().contains("SHOVEL") || item.getType().name().contains("AXE")) {
+            lore.add(2, "§a§l채굴 속도 +1%");
+        }
         lore.add(2, "");
         /*
 

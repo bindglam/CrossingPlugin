@@ -7,7 +7,9 @@ import io.github.bindglam.core.Core;
 import io.github.bindglam.core.managers.*;
 import io.github.bindglam.economy.EconomyManager;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -21,12 +23,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class ServerTickListener implements Listener {
     private static final HashMap<String, Integer> ticks = new HashMap<>(){{ put("floorcleaner", 0); put("Announcement", 0); }};
     private static int announcementI = 0, floorCleanerI = 0;
+
+    public static final List<Object> eventQuestionData = new ArrayList<>();
 
     public static void init(){
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Core.INSTANCE, () -> {
@@ -64,6 +70,26 @@ public class ServerTickListener implements Listener {
                 sendBoard(player);
             }
         }, 0L, 40L);
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Core.INSTANCE, () -> {
+            eventQuestionData.clear();
+
+            Random random = new Random();
+            eventQuestionData.add(EventQuestionType.values()[random.nextInt(EventQuestionType.values().length)]);
+            if(eventQuestionData.get(0) == EventQuestionType.MATH){
+                eventQuestionData.add((int) (Math.random() * 100));
+                eventQuestionData.add((int) (Math.random() * 100));
+            }
+
+            for(Player player : Bukkit.getOnlinePlayers()){
+                switch ((EventQuestionType) eventQuestionData.get(0)){
+                    case MATH:
+                        player.sendMessage(Component.text("[ 이벤트 ] ").color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD)
+                                .append(Component.text(eventQuestionData.get(1) + " + " + eventQuestionData.get(2) + " = ?").color(NamedTextColor.WHITE)));
+                        break;
+                }
+            }
+        }, 0L, 120*20L);
     }
 
     private static void changeStock(){
@@ -114,7 +140,7 @@ public class ServerTickListener implements Listener {
                 new FontImageWrapper("mcemojis:mc_name_tag").getString() + " §2§l닉네임 §7: §8" + player.getName(),
                 new FontImageWrapper("mcemojis:mc_dragon_breath").getString() + " §b§l등급 §7: " + grade,
                 "",
-                new FontImageWrapper("mcemojis:mc_emerald").getString() + " §e§l소지금 §7: §6§l" + EconomyManager.getAmount(player.getUniqueId()) + "원",
+                new FontImageWrapper("mcemojis:mc_emerald").getString() + " §e§l소지금 §7: §6§l" + String.format("%.1f", EconomyManager.getAmount(player.getUniqueId())) + "원",
                 new FontImageWrapper("mcemojis:mc_nether_star").getString() + " §9§l잠수 포인트 §7: §b§l" + DivingPointManager.divingPoints.get(player.getUniqueId()) + "포인트",
                 new FontImageWrapper("mcemojis:mc_gold_nugget").getString() + " §e§l이벤트 포인트 §7: §e§l" + EventCoinManager.eventCoins.get(player.getUniqueId()) + "코인",
                 new FontImageWrapper("mcemojis:mc_diamond").getString() + " §d§l후원 포인트 §7: §5§l" + DonatePointManager.donatePoints.get(player.getUniqueId()) + "포인트",
@@ -186,5 +212,9 @@ public class ServerTickListener implements Listener {
                 }
             }
         }
+    }
+
+    public enum EventQuestionType {
+        MATH;
     }
 }

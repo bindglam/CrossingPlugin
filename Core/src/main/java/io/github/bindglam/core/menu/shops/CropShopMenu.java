@@ -23,11 +23,15 @@ public class CropShopMenu extends AbstractShopMenu {
         put(Material.BONE, 450);
         put(Material.SUGAR_CANE, 50);
 
-        put(Material.RED_TULIP, 10);
-        put(Material.ORANGE_TULIP, 10);
-        put(Material.PINK_TULIP, 10);
-        put(Material.WHITE_TULIP, 10);
         put(Material.SUNFLOWER, 10);
+
+        for(Material material : Material.values()){
+            if(material.name().contains("SAPLING")){
+                put(material, 50);
+            } else if(material.name().contains("TULIP")){
+                put(material, 50);
+            }
+        }
     }};
 
     public CropShopMenu(){

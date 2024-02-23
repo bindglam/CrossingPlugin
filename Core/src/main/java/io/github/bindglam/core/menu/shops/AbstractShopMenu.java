@@ -81,7 +81,7 @@ public abstract class AbstractShopMenu extends Menu {
                                 i < (finalI + 1) * 45 && AbstractShopMenu.this.getItemStacks().keySet().stream().toList().size() > i - AbstractShopMenu.this.getItems().keySet().size(); i++) {
                             ItemStack itemStack = AbstractShopMenu.this.getItemStacks().keySet().stream().toList().get(i - AbstractShopMenu.this.getItems().keySet().size());
                             int cost = ((Integer)AbstractShopMenu.this.getItemStacks().get(itemStack)).intValue();
-                            if (AbstractShopMenu.this.getEconomyUnit() == AbstractShopMenu.EconomyUnit.WON) {
+                            if (AbstractShopMenu.this.getEconomyUnit() == AbstractShopMenu.EconomyUnit.WON && itemStack.getType() != Material.ENCHANTED_BOOK) {
                                 content[i - finalI * 45] = (new AdvItemCreator(itemStack)).setLore(List.of("", "§b§l가격 : " + cost + AbstractShopMenu.this.getEconomyUnit().getName(), "", "§e§l클릭으로 구매", "§e§l웅크리기 + 클릭으로 64개씩 구매", "§a§l우클릭으로 모두 판매"))
                                         .addPersistentData("cost", cost)
                                         .addPersistentData("is-itemstack", true)
@@ -122,7 +122,7 @@ public abstract class AbstractShopMenu extends Menu {
                             return;
                         }
                         if (AbstractShopMenu.this.getEconomyUnit() == AbstractShopMenu.EconomyUnit.WON) {
-                            if (cost > EconomyManager.getAmount(view.getPlayer().getUniqueId()).intValue()) {
+                            if (cost > EconomyManager.getAmount(view.getPlayer().getUniqueId())) {
                                 view.getPlayer().sendMessage((Component.text("가격이 소지금보다 높습니다!").color(TextColor.color(255, 0, 0))).decorate(TextDecoration.BOLD));
                                 return;
                             }
@@ -169,7 +169,7 @@ public abstract class AbstractShopMenu extends Menu {
                         view.getPlayer().sendMessage(Component.text("성공적으로 구매했습니다!").color(TextColor.color(0, 255, 0)).decorate(TextDecoration.BOLD));
                         for (int i = 0; i < 64; i++)
                             AbstractShopMenu.this.giveItem(container, itemStack, meta, view.getPlayer());
-                    } else if (clickType == ClickType.RIGHT && AbstractShopMenu.this.getEconomyUnit() == AbstractShopMenu.EconomyUnit.WON) {
+                    } else if (clickType == ClickType.RIGHT && AbstractShopMenu.this.getEconomyUnit() == AbstractShopMenu.EconomyUnit.WON && itemStack.getType() != Material.ENCHANTED_BOOK) {
                         for (int i = 0; i < view.getPlayer().getInventory().getSize(); i++) {
                             ItemStack invItem = view.getPlayer().getInventory().getItem(i);
                             if (invItem == null)
@@ -218,13 +218,13 @@ public abstract class AbstractShopMenu extends Menu {
             lore.remove(lore.size() - 1);
             lore.remove(lore.size() - 1);
             lore.remove(lore.size() - 1);
-            if (getEconomyUnit() == EconomyUnit.WON)
+            if (getEconomyUnit() == EconomyUnit.WON && itemStack.getType() != Material.ENCHANTED_BOOK)
                 lore.remove(lore.size() - 1);
             cloneMeta.setLore(lore);
             clone.setItemMeta(cloneMeta);
-            player.getInventory().addItem(new ItemStack[] { clone });
+            player.getInventory().addItem(clone);
         } else {
-            player.getInventory().addItem(new ItemStack[] { new ItemStack(itemStack.getType()) });
+            player.getInventory().addItem(new ItemStack(itemStack.getType()));
         }
     }
 

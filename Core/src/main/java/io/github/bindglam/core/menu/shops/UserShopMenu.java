@@ -112,7 +112,7 @@
 /* 128 */                 cost = ((Integer)meta.getPersistentDataContainer().get(costKey, PersistentDataType.INTEGER)).intValue();
 /* 129 */                 ownerUUID = (String)meta.getPersistentDataContainer().get(ownerKey, PersistentDataType.STRING);
 /* 130 */                 itemUUID = UUID.fromString((String)meta.getPersistentDataContainer().get(uuidKey, PersistentDataType.STRING));
-/* 132 */                 if (EconomyManager.getAmount(view.getPlayer().getUniqueId()).intValue() < cost) {
+/* 132 */                 if (EconomyManager.getAmount(view.getPlayer().getUniqueId()) < cost) {
 /* 133 */                   view.getPlayer().sendMessage(((TextComponent)Component.text("소지금이 부족합니다!").color(TextColor.color(255, 0, 0))).decorate(TextDecoration.BOLD));
 /*     */                   return;
 /*     */                 } 

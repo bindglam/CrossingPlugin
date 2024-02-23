@@ -13,12 +13,14 @@ import io.github.bindglam.core.menu.StealMenu;
 import io.github.bindglam.core.utils.AdvancementUtil;
 import io.github.bindglam.core.utils.InvUtils;
 import io.github.bindglam.economy.EconomyManager;
+import io.github.bindglam.ground.GroundManager;
 import io.lumine.mythic.bukkit.MythicBukkit;
 import io.lumine.mythic.core.mobs.ActiveMob;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.*;
@@ -37,6 +39,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
+import java.util.UUID;
 
 public class PlayerDamageDeathListener implements Listener {
     @EventHandler
@@ -79,7 +82,7 @@ public class PlayerDamageDeathListener implements Listener {
 
         if(player.getHealthScale() > 1) {
             AdvancementUtil.awardAdvancement(player, new NamespacedKey(Core.INSTANCE, LostHealthAdvancement.ID), "complete");
-            player.setHealthScale(player.getHealthScale() - 2);
+            player.setHealthScale(player.getHealthScale() - 1);
             player.sendMessage("§c ! 당신은 죽어서 최대 체력 1칸이 깎였습니다! !");
         }
     }
@@ -159,6 +162,22 @@ public class PlayerDamageDeathListener implements Listener {
                 damager.sendMessage(Component.text("당신의 PvP 설정이 꺼짐으로 되어있습니다!").color(TextColor.color(255, 0, 0)).decorate(TextDecoration.BOLD));
                 event.setCancelled(true);
                 return;
+            }
+
+            List<Object> data = GroundManager.isInGround(event.getEntity().getLocation());
+            if(data != null) {
+                UUID owner = GroundManager.grounds.get((Location) data.get(1));
+                if (Objects.equals(owner, player.getUniqueId())) {
+                    event.setCancelled(true);
+                    return;
+                }
+                if (GroundManager.grounders.containsKey((Location) data.get(1)) && !Objects.equals(owner, player.getUniqueId())){
+                    if (GroundManager.grounders.get((Location) data.get(1)).contains(player.getUniqueId())) {
+                        event.setCancelled(true);
+                    }
+                }
+
+                //entity.sendMessage("§c§l이곳은 " + owner + "님의 땅입니다.");
             }
 
             if (player.getHealth() - event.getFinalDamage() <= 0.0 && player.getInventory().getItemInMainHand().getType() != Material.TOTEM_OF_UNDYING && player.getInventory().getItemInOffHand().getType() != Material.TOTEM_OF_UNDYING) {

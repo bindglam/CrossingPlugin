@@ -111,16 +111,17 @@ public class PlayerListener implements Listener {
         Entity entity = event.getEntity();
 
         List<Object> data = GroundManager.isInGround(event.getEntity().getLocation());
-        if(data != null){
+        if(data != null) {
             UUID owner = GroundManager.grounds.get((Location) data.get(1));
-            if(Objects.equals(owner, entity.getUniqueId())){
+            if (Objects.equals(owner, entity.getUniqueId())) {
                 event.setCancelled(true);
                 return;
             }
-            if(GroundManager.grounders.containsKey((Location) data.get(1)) && !Objects.equals(owner, entity.getUniqueId()))
-                if(GroundManager.grounders.get((Location) data.get(1)).contains(entity.getUniqueId())) {
+            if (GroundManager.grounders.containsKey((Location) data.get(1)) && !Objects.equals(owner, entity.getUniqueId())){
+                if (GroundManager.grounders.get((Location) data.get(1)).contains(entity.getUniqueId())) {
                     event.setCancelled(true);
                 }
+            }
 
             //entity.sendMessage("§c§l이곳은 " + owner + "님의 땅입니다.");
         }

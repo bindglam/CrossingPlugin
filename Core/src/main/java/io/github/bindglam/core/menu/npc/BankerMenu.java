@@ -61,7 +61,7 @@ public class BankerMenu extends Menu implements Listener {
                 content[1][1] = new ItemCreator(Material.BOOK).setName("§e§l통장 §a개설").getItem();
                 content[1][3] = new ItemCreator(Material.GOLD_INGOT).setName("§e§l통장§7으로 §6입금").getItem();
                 ItemMeta meta = content[1][3].getItemMeta();
-                meta.setLore(List.of("현재 통장 소지금 : " + EconomyManager.getBankAmount(player.getUniqueId()) + "원"));
+                meta.setLore(List.of("현재 통장 소지금 : " + String.format("%.1f", EconomyManager.getBankAmount(player.getUniqueId())) + "원"));
                 content[1][3].setItemMeta(meta);
                 content[1][5] = new ItemCreator(Material.FEATHER).setName("§e§l통장§7에서 §6출금").getItem();
                 meta.setDisplayName(content[1][5].getItemMeta().getDisplayName());
