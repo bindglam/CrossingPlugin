@@ -47,13 +47,18 @@ public class PlayerListener implements Listener {
                 player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, ((Location) data.get(1)).getX() - 8, player.getLocation().getY(), (float) ((Location) data.get(1)).getZ() + z, 1, 0f, 0f, 0f, 0);
             }
 
+            GroundEnterEvent enterEvent;
             if(inGrounds.containsKey(player.getName())){
                 if(inGrounds.get(player.getName()).equals(data.get(1))) return;
-                new GroundEnterEvent(player, (Location) data.get(1), data).callEvent();
-            } else {
-                new GroundEnterEvent(player, (Location) data.get(1), data).callEvent();
             }
+            enterEvent = new GroundEnterEvent(player, (Location) data.get(1), data);
+            enterEvent.callEvent();
             inGrounds.put(player.getName(), (Location) data.get(1));
+
+            if(enterEvent.isCancelled()){
+                inGrounds.remove(player.getName());
+                event.getPlayer().teleport(event.getFrom());
+            }
         } else {
             inGrounds.remove(player.getName());
             new GroundExitEvent(player).callEvent();

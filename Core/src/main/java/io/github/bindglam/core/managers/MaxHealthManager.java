@@ -13,7 +13,7 @@ public class MaxHealthManager {
             return lastMaxHealth.get(uuid);
         if(Core.INSTANCE.getConfig().getDouble("LastMaxHealth." + uuid.toString()) > 0.0)
             return Core.INSTANCE.getConfig().getDouble("LastMaxHealth." + uuid);
-        return 10.0;
+        return 20.0;
     }
 
     public static void save(){

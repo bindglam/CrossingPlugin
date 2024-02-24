@@ -47,7 +47,7 @@ public class GroundManager implements Listener {
 
         if(GroundPlugin.INSTANCE.getConfig().get("GroundersLoc") != null) {
             int i = 0;
-            for (String locationStr : (List<String>) GroundPlugin.INSTANCE.getConfig().get("GroundersLoc")) {
+            for (String locationStr : GroundPlugin.INSTANCE.getConfig().getStringList("GroundersLoc")) {
                 Location loc = new Location(null, 0, 0, 0);
                 for(String locData : locationStr.split(",")){
                     if(locData.contains("x=")){

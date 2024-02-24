@@ -6,6 +6,7 @@ import io.github.bindglam.core.managers.StatsManager;
 import io.github.bindglam.core.menu.core.CoreMenu;
 import io.github.bindglam.ground.GroundManager;
 import io.github.bindglam.ground.events.GroundEnterEvent;
+import io.github.bindglam.ground.events.GroundExitEvent;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -22,6 +23,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.purpurmc.purpur.event.ExecuteCommandEvent;
 
 import java.time.Duration;
 import java.util.List;
@@ -46,6 +48,14 @@ public class PlayerActionListener implements Listener {
         StatsManager.Stats stats = StatsManager.getStats(player.getUniqueId());
 
         player.setWalkSpeed(0.2f + (float) stats.speedLv / 20.0f);
+
+        List<Object> data = GroundManager.isInGround(player);
+        if(data != null) {
+            if(ServerTickListener.pvpTimes.containsKey(player.getUniqueId()) && !ServerTickListener.pvpInGrounds.contains(player.getUniqueId())){
+                event.setCancelled(true);
+                player.sendActionBar(Component.text("PvP중에는 땅에 들어갈 수 없습니다!").color(TextColor.color(255, 0, 0)));
+            }
+        }
     }
 
     @EventHandler
@@ -67,6 +77,13 @@ public class PlayerActionListener implements Listener {
             player.showTitle(Title.title(Component.text(Objects.requireNonNull(Bukkit.getOfflinePlayer(uuid).getName())).color(TextColor.color(255, 255, 0)).decorate(TextDecoration.BOLD),
                     Component.text("님의 땅에 들오셨습니다!").color(NamedTextColor.WHITE), Title.Times.times(Duration.ofNanos(100), Duration.ofNanos(1000), Duration.ofNanos(100))));
         }
+    }
+
+    @EventHandler
+    public void onGroundExit(GroundExitEvent event) {
+        Player player = event.getPlayer();
+
+        ServerTickListener.pvpInGrounds.remove(player.getUniqueId());
     }
 
     @EventHandler
@@ -98,4 +115,14 @@ public class PlayerActionListener implements Listener {
             }
         }
     }
+
+    /*
+    @EventHandler
+    public void onCommandExecute(ExecuteCommandEvent event){
+        if(!(event.getSender() instanceof Player player)) return;
+        if(event.getCommand().getLabel().equalsIgnoreCase("verify") || event.getCommand().getLabel().equalsIgnoreCase("인증") && event.getArgs().length == 1){
+            player.setAllowFlight(true);
+        }
+    }
+     */
 }

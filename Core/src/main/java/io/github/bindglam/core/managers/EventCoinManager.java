@@ -24,7 +24,7 @@ public class EventCoinManager {
     public static void save() {
         List<String> data = new ArrayList<>();
         for (UUID uuid : eventCoins.keySet())
-            data.add(uuid.toString() + ":" + uuid);
+            data.add(uuid.toString() + ":" + eventCoins.get(uuid));
         Core.INSTANCE.getConfig().set("eventCoins", data);
     }
 }

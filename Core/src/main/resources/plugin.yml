@@ -9,6 +9,15 @@ depend:
   - LuckPerms
   - ItemsAdder
 commands:
+  hat:
+    aliases:
+      - 모자
+      - 머리에착용
+  sendmoney:
+    aliases:
+      - 송금
+  eventcoin:
+    permission: op
   usershop:
     aliases:
       - 유저상점
@@ -55,10 +64,6 @@ commands:
     aliases:
       - 돈
       - 소지금
-  deposit:
-    permission: op
-  withdraw:
-    permission: op
   clearbank:
     permission: op
   basicitems:

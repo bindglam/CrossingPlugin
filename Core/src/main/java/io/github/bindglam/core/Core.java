@@ -74,8 +74,6 @@ public class Core extends JavaPlugin {
         Objects.requireNonNull(getCommand("menu")).setExecutor(new MenuCommand());
         Objects.requireNonNull(getCommand("backto")).setExecutor(new BackToCommand());
         Objects.requireNonNull(getCommand("money")).setExecutor(new MoneyCommand());
-        Objects.requireNonNull(getCommand("deposit")).setExecutor(new DepositWithdrawCommand());
-        Objects.requireNonNull(getCommand("withdraw")).setExecutor(new DepositWithdrawCommand());
         Objects.requireNonNull(getCommand("clearbank")).setExecutor(new ClearBankCommand());
         Objects.requireNonNull(getCommand("basicitems")).setExecutor(new BasicItemsCommand());
         Objects.requireNonNull(getCommand("resetmaxhealth")).setExecutor(new ResetMaxHealthCommand());
@@ -94,6 +92,9 @@ public class Core extends JavaPlugin {
         Objects.requireNonNull(getCommand("tutorial")).setExecutor(new TutorialCommand());
         Objects.requireNonNull(getCommand("crossemote")).setExecutor(new EmoteCommand());
         Objects.requireNonNull(getCommand("usershop")).setExecutor(new UserShopCommand());
+        Objects.requireNonNull(getCommand("eventcoin")).setExecutor(new EventCoinCommand());
+        Objects.requireNonNull(getCommand("sendmoney")).setExecutor(new SendMoneyCommand());
+        Objects.requireNonNull(getCommand("hat")).setExecutor(new HatCommand());
 
         Objects.requireNonNull(getCommand("crossemote")).setTabCompleter(new EmoteTabCompletion());
 
@@ -109,7 +110,9 @@ public class Core extends JavaPlugin {
         StatsManager.init();
         //ShopMenu.load();
         UserShopManager.load();
+        DivingPointManager.init();
         EventCoinManager.init();
+        DonatePointManager.init();
 
         Bukkit.getScheduler().runTaskLater(this, () -> {
             getLogger().warning(" ! 서버를 재부팅하신거라면, 이플러그인을 한번 리로드해야합니다! ! ");
@@ -132,6 +135,7 @@ public class Core extends JavaPlugin {
         StockManager.save();
         UserShopManager.save();
         EventCoinManager.save();
+        DivingPointManager.save();
         saveConfig();
     }
 }

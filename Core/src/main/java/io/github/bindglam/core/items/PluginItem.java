@@ -18,10 +18,15 @@ import java.util.List;
 
 @Getter
 public abstract class PluginItem implements Listener {
-    private final CustomStack customStack;
+    private CustomStack customStack;
+    private ItemStack itemStack;
 
     public PluginItem(CustomStack customStack) {
         this.customStack = customStack;
+    }
+
+    public PluginItem(ItemStack itemStack) {
+        this.itemStack = itemStack;
     }
 
     public abstract void onInteract(PlayerInteractEvent event);

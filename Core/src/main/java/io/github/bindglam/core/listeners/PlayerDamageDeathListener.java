@@ -80,9 +80,9 @@ public class PlayerDamageDeathListener implements Listener {
                 player.sendMessage(Component.text("§e§l당신의 PvP 레벨이 낮아 인벤토리를 보호했습니다! §7( Lv." + stats.pvpLv + " < 25 )"));
         }
 
-        if(player.getHealthScale() > 1) {
+        if(player.getHealthScale() >= 4) {
             AdvancementUtil.awardAdvancement(player, new NamespacedKey(Core.INSTANCE, LostHealthAdvancement.ID), "complete");
-            player.setHealthScale(player.getHealthScale() - 1);
+            player.setHealthScale(player.getHealthScale() - 2);
             player.sendMessage("§c ! 당신은 죽어서 최대 체력 1칸이 깎였습니다! !");
         }
     }
@@ -152,19 +152,34 @@ public class PlayerDamageDeathListener implements Listener {
 
             StatsManager.Stats damagerStats = StatsManager.getStats(damager.getUniqueId());
 
-            if((boolean) setting.settings.get("PvP")){
+            if(player.getWorld().getName().equals("lobby") || player.getWorld().getName().equals("tutorial")) {
+                event.setCancelled(true);
+                return;
+            }
+
+            if(damager.getWorld().getName().equals("lobby") || damager.getWorld().getName().equals("tutorial")){
+                event.setCancelled(true);
+                return;
+            }
+
+            if(player.getWorld().getName().equals("world") && (player.getLocation().getX() >= -96-8 && player.getLocation().getX() <= -96+8) && (player.getLocation().getZ() >= 241-8 && player.getLocation().getX() <= 241+8)){
+                event.setCancelled(true);
+                return;
+            }
+
+            if(!(boolean) setting.settings.get("PvP")){
                 damager.sendMessage(Component.text(player.getName() + "님은 PvP를 싫어하십니다!").color(TextColor.color(255, 0, 0)).decorate(TextDecoration.BOLD));
                 event.setCancelled(true);
                 return;
             }
 
-            if((boolean) damagerSetting.settings.get("PvP")){
+            if(!(boolean) damagerSetting.settings.get("PvP")){
                 damager.sendMessage(Component.text("당신의 PvP 설정이 꺼짐으로 되어있습니다!").color(TextColor.color(255, 0, 0)).decorate(TextDecoration.BOLD));
                 event.setCancelled(true);
                 return;
             }
 
-            List<Object> data = GroundManager.isInGround(event.getEntity().getLocation());
+            List<Object> data = GroundManager.isInGround(player.getLocation());
             if(data != null) {
                 UUID owner = GroundManager.grounds.get((Location) data.get(1));
                 if (Objects.equals(owner, player.getUniqueId())) {
@@ -174,20 +189,32 @@ public class PlayerDamageDeathListener implements Listener {
                 if (GroundManager.grounders.containsKey((Location) data.get(1)) && !Objects.equals(owner, player.getUniqueId())){
                     if (GroundManager.grounders.get((Location) data.get(1)).contains(player.getUniqueId())) {
                         event.setCancelled(true);
+                        return;
                     }
                 }
 
                 //entity.sendMessage("§c§l이곳은 " + owner + "님의 땅입니다.");
+                ServerTickListener.pvpInGrounds.add(player.getUniqueId());
             }
 
+            data = GroundManager.isInGround(damager.getLocation());
+            if(data != null) {
+                //entity.sendMessage("§c§l이곳은 " + owner + "님의 땅입니다.");
+                ServerTickListener.pvpInGrounds.add(damager.getUniqueId());
+            }
+
+            ServerTickListener.pvpTimes.put(damager.getUniqueId(), 5*20);
+            ServerTickListener.pvpTimes.put(player.getUniqueId(), 5*20);
+
             if (player.getHealth() - event.getFinalDamage() <= 0.0 && player.getInventory().getItemInMainHand().getType() != Material.TOTEM_OF_UNDYING && player.getInventory().getItemInOffHand().getType() != Material.TOTEM_OF_UNDYING) {
-                damager.getInventory().addItem(CustomStack.getInstance("golden_head").getItemStack());
+                damager.getInventory().addItem(new GoldenHeadItem(player.getName()).getItemStack());
 
-                EconomyManager.deposit(damager.getUniqueId(), EconomyManager.getAmount(player.getUniqueId()) / 2);
-                damager.sendMessage("§3" + player.getName() + "님을 죽여 §e§l황금머리§3와 §6§l" + EconomyManager.getAmount(player.getUniqueId()) / 2 + "원§3을 얻으셨습니다!");
+                double lostMoney = EconomyManager.getAmount(player.getUniqueId()) / 2;
+                EconomyManager.deposit(damager.getUniqueId(), lostMoney);
+                damager.sendMessage("§3" + player.getName() + "님을 죽여 §e§l황금머리§3와 §6§l" + String.format("%.1f", lostMoney) + "원§3을 얻으셨습니다!");
 
-                player.sendMessage("§4§l" + damager.getName() + "님께 살해당해 §6§l" + EconomyManager.getAmount(player.getUniqueId()) / 2 + "원§4§l을 잃으셨습니다.");
-                EconomyManager.withdraw(player.getUniqueId(), EconomyManager.getAmount(player.getUniqueId()) / 2);
+                player.sendMessage("§4§l" + damager.getName() + "님께 살해당해 §6§l" + String.format("%.1f", lostMoney) + "원§4§l을 잃으셨습니다.");
+                EconomyManager.withdraw(player.getUniqueId(), lostMoney);
 
                 damagerStats.pvpLv++;
                 damager.sendMessage(Component.text("§4§l하지만 당신의 PvP 레벨이 상승하였습니다... §7( Lv." + damagerStats.pvpLv + " )"));
@@ -222,6 +249,11 @@ public class PlayerDamageDeathListener implements Listener {
                 stats.speedXp++;
             }
             StatsManager.update(stats, player);
+
+            if((player.getLocation().getX() >= -96-8 && player.getLocation().getX() <= -96+8) && (player.getLocation().getZ() >= 241-8 && player.getLocation().getX() <= 241+8)){
+                event.setCancelled(true);
+                return;
+            }
         }
 
         if(event.getFinalDamage() < 0.0){

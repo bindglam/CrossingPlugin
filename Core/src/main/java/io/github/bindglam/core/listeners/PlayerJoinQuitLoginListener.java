@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -50,6 +51,8 @@ public class PlayerJoinQuitLoginListener implements Listener {
             DivingPointManager.divingPoints.put(player.getUniqueId(), 0);
         if(!EventCoinManager.eventCoins.containsKey(player.getUniqueId()))
             EventCoinManager.eventCoins.put(player.getUniqueId(), 0);
+        if(!DonatePointManager.donatePoints.containsKey(player.getUniqueId()))
+            DonatePointManager.donatePoints.put(player.getUniqueId(), 0);
 
         player.setHealthScale(MaxHealthManager.loadMaxHealth(player.getUniqueId()));
     }

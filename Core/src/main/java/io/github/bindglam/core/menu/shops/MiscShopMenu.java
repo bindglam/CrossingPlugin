@@ -22,10 +22,29 @@ public class MiscShopMenu extends AbstractShopMenu {
         put(Material.BONE, 100);
         put(Material.ROTTEN_FLESH, 100);
         put(Material.ENDER_PEARL, 1000);
+        put(Material.SLIME_BALL, 100000);
+        put(Material.WITHER_SKELETON_SKULL, 3000000);
         put(Material.ZOMBIE_SPAWN_EGG, 10000000);
         put(Material.CREEPER_SPAWN_EGG, 10000000);
         put(Material.SKELETON_SPAWN_EGG, 10000000);
         put(Material.ENDERMAN_SPAWN_EGG, 70000000);
+        put(Material.WITHER_SPAWN_EGG, 1000000000);
+        put(Material.VILLAGER_SPAWN_EGG, 10000000);
+        put(Material.PIG_SPAWN_EGG, 800000);
+        put(Material.CHICKEN_SPAWN_EGG, 800000);
+        put(Material.COW_SPAWN_EGG, 800000);
+        put(Material.TNT, 10000);
+        put(Material.SNOWBALL, 10);
+        put(Material.EGG, 1000);
+        put(Material.BLAZE_ROD, 200000);
+        put(Material.BREWING_STAND, 250000);
+        put(Material.TOTEM_OF_UNDYING, 10000000);
+        put(Material.WITHER_ROSE, 100000);
+        put(Material.END_CRYSTAL, 100000);
+        put(Material.TRIDENT, 38000000);
+        put(Material.ENCHANTING_TABLE, 30000);
+        put(Material.ANVIL, 30000);
+        put(Material.GRINDSTONE, 10000);
     }};
 
     public static LinkedHashMap<ItemStack, Integer> itemStacks = new LinkedHashMap<>() {{
@@ -35,6 +54,9 @@ public class MiscShopMenu extends AbstractShopMenu {
         put(AdvItemCreator.getEnchantedBook(Enchantment.PROTECTION_EXPLOSIONS, 1), 100000);
         put(AdvItemCreator.getEnchantedBook(Enchantment.MENDING, 1), 9000000);
         put(AdvItemCreator.getEnchantedBook(Enchantment.DIG_SPEED, 1), 1000000);
+        put(AdvItemCreator.getEnchantedBook(Enchantment.RIPTIDE, 1), 50000000);
+        put(AdvItemCreator.getEnchantedBook(Enchantment.LOYALTY, 1), 50000000);
+        put(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE), 50000);
     }};
 
     public MiscShopMenu(){

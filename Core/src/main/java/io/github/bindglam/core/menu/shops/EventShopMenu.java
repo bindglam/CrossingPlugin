@@ -1,5 +1,6 @@
 package io.github.bindglam.core.menu.shops;
 
+import io.github.bindglam.core.items.PvPLvResetItem;
 import io.github.bindglam.core.utils.AdvItemCreator;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -14,6 +15,9 @@ public class EventShopMenu extends AbstractShopMenu {
     public static LinkedHashMap<ItemStack, Integer> itemStacks = new LinkedHashMap<>() {{
         put(new AdvItemCreator(Material.PAPER).setDisplayName("§f§l인벤토리 §a§l세이브권")
                 .addEnchantment(Enchantment.DURABILITY, 5).getItemStack(), 1000);
+        put(new AdvItemCreator(Material.PAPER).setDisplayName("§b§l강화 §f§l보호권")
+                .addEnchantment(Enchantment.DURABILITY, 5).getItemStack(), 1000);
+        put(new PvPLvResetItem().getItemStack(), 2500);
     }};
 
     public EventShopMenu(){

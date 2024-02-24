@@ -3,3 +3,8 @@ main: io.github.bindglam.economy.Economy
 version: 1.0
 depend:
   - Vault
+commands:
+  economy:
+    permission: op
+  bank:
+    permission: op

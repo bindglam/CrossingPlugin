@@ -239,6 +239,25 @@ public class EnhanceMenu extends Menu {
                 item.setItemMeta(meta);
             }
         } else {
+            for(ItemStack itemStack : player.getInventory()){
+                if(itemStack == null) continue;
+                if(!itemStack.hasDisplayName()) continue;
+                if(itemStack.getDisplayName().equals("§b§l강화 §f§l보호권")){
+                    InvUtils.consumeItem(player, 1, itemStack);
+                    player.playSound(player.getLocation(), Sound.ITEM_SHIELD_BREAK, 100f, 1.4f);
+                    count-=1;
+                    String l = "§e§l" + "★".repeat(Math.max(0, count)) +
+                            "☆".repeat(Math.max(0, 10 - count));
+                    lore.remove(1);
+                    lore.add(1, l);
+                    updateLore(count, lore, item);
+
+                    meta.setLore(lore);
+                    item.setItemMeta(meta);
+                    player.sendMessage("§e§l강화 보호권으로 당신의 아이템이 하락하지 않았습니다!");
+                    return item;
+                }
+            }
             if(Math.random() <= (double) 1 / 10){
                 item = null;
                 player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_BREAK, 100f, 2.0f);
@@ -280,5 +299,5 @@ public class EnhanceMenu extends Menu {
         }
     }
 
-    private static int countChar(String str, char ch) {        int count = 0;         for (int i = 0; i < str.length(); i++) {            if (str.charAt(i) == ch) {                count++;            }        }         return count;    }
+    public static int countChar(String str, char ch) {        int count = 0;         for (int i = 0; i < str.length(); i++) {            if (str.charAt(i) == ch) {                count++;            }        }         return count;    }
 }

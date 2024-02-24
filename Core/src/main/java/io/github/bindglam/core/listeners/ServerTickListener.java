@@ -5,6 +5,7 @@ import dev.lone.itemsadder.api.FontImages.FontImageWrapper;
 import fr.mrmicky.fastboard.FastBoard;
 import io.github.bindglam.core.Core;
 import io.github.bindglam.core.managers.*;
+import io.github.bindglam.core.menu.blocks.EnhanceMenu;
 import io.github.bindglam.economy.EconomyManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -23,16 +24,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ServerTickListener implements Listener {
     private static final HashMap<String, Integer> ticks = new HashMap<>(){{ put("floorcleaner", 0); put("Announcement", 0); }};
     private static int announcementI = 0, floorCleanerI = 0;
 
     public static final List<Object> eventQuestionData = new ArrayList<>();
+    public static final ConcurrentHashMap<UUID, Integer> pvpTimes = new ConcurrentHashMap<>();
+    public static final List<UUID> pvpInGrounds = new ArrayList<>();
 
     public static void init(){
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Core.INSTANCE, () -> {
@@ -209,6 +210,31 @@ public class ServerTickListener implements Listener {
                         int plusMineAmount = Integer.parseInt(lore.get(3).split("§a§l채굴 속도 +")[1].replace("%", ""));
                         player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 25, plusMineAmount, false, false));
                     }
+                }
+            }
+
+            ItemStack boots = player.getInventory().getBoots();
+            if (boots != null && boots.getType() != Material.AIR) {
+                ItemMeta meta = boots.getItemMeta();
+                if (meta != null &&
+                        meta.getLore() != null) {
+                    List<String> lore = meta.getLore();
+                    if (lore.size() > 1) {
+                        int count = EnhanceMenu.countChar(lore.get(1), '★');
+                        if(count == 10) {
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 25, 2, false, false));
+                        }
+                    }
+                }
+            }
+
+            if(pvpTimes.containsKey(player.getUniqueId())) {
+                if(pvpTimes.get(player.getUniqueId()) > 0) {
+                    pvpTimes.put(player.getUniqueId(), pvpTimes.get(player.getUniqueId()) - 1);
+                    player.sendActionBar(Component.text("PvP 풀리기까지 남은 시간 : " + pvpTimes.get(player.getUniqueId()) /20 + "초").color(TextColor.color(255, 255, 0)));
+                } else {
+                    pvpTimes.remove(player.getUniqueId());
+                    player.sendActionBar(Component.text("PvP가 풀렸습니다!").color(TextColor.color(0, 255, 0)));
                 }
             }
         }

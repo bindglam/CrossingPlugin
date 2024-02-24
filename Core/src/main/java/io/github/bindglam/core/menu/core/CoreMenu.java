@@ -5,6 +5,7 @@ import fr.dwightstudio.dsmapi.MenuView;
 import fr.dwightstudio.dsmapi.pages.Page;
 import fr.dwightstudio.dsmapi.pages.PageType;
 import fr.dwightstudio.dsmapi.utils.ItemCreator;
+import io.github.bindglam.core.listeners.ServerTickListener;
 import io.github.bindglam.core.menu.PrivateSettingMenu;
 import io.github.bindglam.core.menu.shops.DivingShopMenu;
 import io.github.bindglam.core.menu.shops.EventShopMenu;
@@ -131,8 +132,10 @@ public class CoreMenu extends Menu {
                         break;
 
                     case WRITABLE_BOOK:
-                        view.getPlayer().playSound(view.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 100f, 1.5f);
-                        new PrivateSettingMenu(view.getPlayer()).open(view.getPlayer(), 0);
+                        if(!ServerTickListener.pvpTimes.containsKey(view.getPlayer().getUniqueId())) {
+                            view.getPlayer().playSound(view.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 100f, 1.5f);
+                            new PrivateSettingMenu(view.getPlayer()).open(view.getPlayer(), 0);
+                        }
                         break;
 
                     case GOLD_INGOT:

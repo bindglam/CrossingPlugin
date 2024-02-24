@@ -16,15 +16,20 @@ import java.util.List;
 /*    */   public static void init() {
 /* 16 */     Core.INSTANCE.getConfig().getStringList("divingPoints").forEach(str -> {
 /*    */           UUID uuid = UUID.fromString(str.split(":")[0]);
-/*    */           Integer point = Integer.valueOf(Integer.parseInt(str.split(":")[1]));
-/*    */           divingPoints.put(uuid, point);
+                    try {
+                        /*    */
+                        Integer point = Integer.valueOf(Integer.parseInt(str.split(":")[1]));
+                        /*    */
+                        divingPoints.put(uuid, point);
+                    } catch (NumberFormatException ignored){
+                    }
 /*    */         });
 /*    */   }
 /*    */   
 /*    */   public static void save() {
 /* 24 */     List<String> data = new ArrayList<>();
 /* 25 */     for (UUID uuid : divingPoints.keySet()) {
-/* 26 */       data.add(uuid.toString() + ":" + uuid.toString());
+/* 26 */       data.add(uuid.toString() + ":" + divingPoints.get(uuid));
 /*    */     }
 /* 28 */     Core.INSTANCE.getConfig().set("divingPoints", data);
 /*    */   }
