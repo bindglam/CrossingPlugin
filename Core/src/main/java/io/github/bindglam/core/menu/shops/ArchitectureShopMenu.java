@@ -28,6 +28,10 @@ public class ArchitectureShopMenu extends AbstractShopMenu {
             } else if(material.name().contains("GLASS")){
                 if(material == Material.SPYGLASS || material == Material.GLASS_BOTTLE) continue;
                 put(material, 150);
+            } else if(material.name().contains("FROGLIGHT")){
+                put(material, 1000);
+            } else if(material.name().contains("SANDSTONE")){
+                put(material, 100);
             }
         }
 
@@ -41,6 +45,9 @@ public class ArchitectureShopMenu extends AbstractShopMenu {
         put(Material.OBSIDIAN, 10000);
         put(Material.CRYING_OBSIDIAN, 30000);
         put(Material.GLOWSTONE, 25000);
+        put(Material.SEA_LANTERN, 60000);
+        put(Material.SCAFFOLDING, 10000);
+        put(Material.CALCITE, 3000);
     }};
 
     public ArchitectureShopMenu(){

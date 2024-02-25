@@ -112,6 +112,19 @@ public class PlayerActionListener implements Listener {
                         EventCoinManager.eventCoins.put(player.getUniqueId(), EventCoinManager.eventCoins.get(player.getUniqueId())+1);
                     }
                     break;
+
+                case COUPON:
+                    if(message.equals(ServerTickListener.eventQuestionData.get(1))){
+                        ServerTickListener.eventQuestionData.clear();
+                        for(Player otherPlayer : Bukkit.getOnlinePlayers()){
+                            otherPlayer.sendMessage(Component.text(player.getName() + "님께서 이벤트 쿠폰을 입력하셨습니다!").color(NamedTextColor.GREEN));
+                        }
+                        player.sendMessage(Component.text("당신은 쿠폰을 입력하셨습니다!").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD));
+                        if(!EventCoinManager.eventCoins.containsKey(player.getUniqueId()))
+                            EventCoinManager.eventCoins.put(player.getUniqueId(), 0);
+                        EventCoinManager.eventCoins.put(player.getUniqueId(), EventCoinManager.eventCoins.get(player.getUniqueId())+(int)(Math.random()*10));
+                    }
+                    break;
             }
         }
     }

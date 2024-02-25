@@ -22,7 +22,7 @@ public class InnKeeperNPC extends InteractNPC.TalkNPC {
     public void onTalk(Player talker, int index) {
         talker.playSound(talker.getLocation(), Sound.ENTITY_VILLAGER_YES, 100f, 1.2f);
 
-        if(index == 2){
+        if(index == 3){
             sendYesNo(talker);
         }
     }

@@ -6,6 +6,7 @@ import fr.mrmicky.fastboard.FastBoard;
 import io.github.bindglam.core.Core;
 import io.github.bindglam.core.managers.*;
 import io.github.bindglam.core.menu.blocks.EnhanceMenu;
+import io.github.bindglam.core.utils.CouponGenerator;
 import io.github.bindglam.economy.EconomyManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -80,6 +81,8 @@ public class ServerTickListener implements Listener {
             if(eventQuestionData.get(0) == EventQuestionType.MATH){
                 eventQuestionData.add((int) (Math.random() * 100));
                 eventQuestionData.add((int) (Math.random() * 100));
+            } else if(eventQuestionData.get(0) == EventQuestionType.COUPON){
+                eventQuestionData.add(CouponGenerator.generateCouponCode(5));
             }
 
             for(Player player : Bukkit.getOnlinePlayers()){
@@ -87,6 +90,11 @@ public class ServerTickListener implements Listener {
                     case MATH:
                         player.sendMessage(Component.text("[ 이벤트 ] ").color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD)
                                 .append(Component.text(eventQuestionData.get(1) + " + " + eventQuestionData.get(2) + " = ?").color(NamedTextColor.WHITE)));
+                        break;
+
+                    case COUPON:
+                        player.sendMessage(Component.text("[ 이벤트 ] ").color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD)
+                                .append(Component.text("쿠폰 코드 : " + eventQuestionData.get(1)).color(NamedTextColor.WHITE)));
                         break;
                 }
             }
@@ -241,6 +249,7 @@ public class ServerTickListener implements Listener {
     }
 
     public enum EventQuestionType {
-        MATH;
+        MATH,
+        COUPON;
     }
 }

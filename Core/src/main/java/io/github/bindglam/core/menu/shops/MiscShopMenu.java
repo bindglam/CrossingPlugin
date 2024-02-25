@@ -45,6 +45,8 @@ public class MiscShopMenu extends AbstractShopMenu {
         put(Material.ENCHANTING_TABLE, 30000);
         put(Material.ANVIL, 30000);
         put(Material.GRINDSTONE, 10000);
+        put(Material.BAMBOO, 500);
+        put(Material.NAME_TAG, 30000);
     }};
 
     public static LinkedHashMap<ItemStack, Integer> itemStacks = new LinkedHashMap<>() {{
