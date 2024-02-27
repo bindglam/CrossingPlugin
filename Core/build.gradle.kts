@@ -33,6 +33,9 @@ dependencies {
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation("net.kyori:adventure-text-minimessage:4.15.0")
+    implementation("io.socket:socket.io-client:1.0.0")
+    implementation("io.reactivex.rxjava2:rxjava:2.1.16")
+    implementation("org.jsoup:jsoup:1.17.2")
 }
 
 tasks.test {

@@ -170,8 +170,6 @@ public class CoreMenu extends Menu {
                         .getItemStack();
                 content[0][8] = new AdvItemCreator(Material.PLAYER_HEAD).makeHead(player.getName()).setDisplayName(player.getName())
                         .getItemStack();
-                content[1][1] = new AdvItemCreator(Material.END_CRYSTAL).setDisplayName("§d§l이벤트 상점")
-                        .getItemStack();
 
                 content[4][0] = new AdvItemCreator(Material.ARROW).setDisplayName("§7§l뒤로")
                         .getItemStack();
@@ -201,10 +199,6 @@ public class CoreMenu extends Menu {
                 }
 
                 switch (itemStack.getType()){
-                    case END_CRYSTAL:
-                        view.getPlayer().playSound(view.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 100f, 1.5f);
-                        new EventShopMenu().open(view.getPlayer(), 0);
-                        break;
                 }
             }
         };

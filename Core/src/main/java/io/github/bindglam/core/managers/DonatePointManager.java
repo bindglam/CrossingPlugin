@@ -22,7 +22,7 @@ import java.util.List;
 /*    */   public static void save() {
 /* 22 */     List<String> data = new ArrayList<>();
 /* 23 */     for (UUID uuid : donatePoints.keySet()) {
-/* 24 */       data.add(uuid.toString() + ":" + uuid.toString());
+/* 24 */       data.add(uuid.toString() + ":" + donatePoints.get(uuid));
 /*    */     }
 /* 26 */     Core.INSTANCE.getConfig().set("donatePoints", data);
 /*    */   }

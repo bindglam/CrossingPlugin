@@ -8,6 +8,7 @@ import io.papermc.paper.event.entity.EntityMoveEvent;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -76,8 +77,10 @@ public class PlayerListener implements Listener {
             if(Objects.equals(owner, player.getUniqueId())) return;
             if(GroundManager.grounders.containsKey((Location) data.get(1))) if(GroundManager.grounders.get((Location) data.get(1)).contains(player.getUniqueId())) return;
 
-            event.setCancelled(true);
-            player.sendMessage("§c§l이곳은 " + Bukkit.getOfflinePlayer(owner).getName() + "님의 땅입니다.");
+            if(event.getClickedBlock().getType() != Material.LECTERN) {
+                event.setCancelled(true);
+                player.sendMessage("§c§l이곳은 " + Bukkit.getOfflinePlayer(owner).getName() + "님의 땅입니다.");
+            }
         }
     }
 

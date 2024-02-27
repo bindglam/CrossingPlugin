@@ -25,6 +25,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -145,6 +146,9 @@ public class ServerTickListener implements Listener {
         else if(player.hasPermission("group.default"))
             grade = "§8유저";
 
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String date = simpleDateFormat.format(new Date());
+
         board.updateLines(
                 new FontImageWrapper("mcemojis:mc_name_tag").getString() + " §2§l닉네임 §7: §8" + player.getName(),
                 new FontImageWrapper("mcemojis:mc_dragon_breath").getString() + " §b§l등급 §7: " + grade,
@@ -152,9 +156,9 @@ public class ServerTickListener implements Listener {
                 new FontImageWrapper("mcemojis:mc_emerald").getString() + " §e§l소지금 §7: §6§l" + String.format("%.1f", EconomyManager.getAmount(player.getUniqueId())) + "원",
                 new FontImageWrapper("mcemojis:mc_nether_star").getString() + " §9§l잠수 포인트 §7: §b§l" + DivingPointManager.divingPoints.get(player.getUniqueId()) + "포인트",
                 new FontImageWrapper("mcemojis:mc_gold_nugget").getString() + " §e§l이벤트 포인트 §7: §e§l" + EventCoinManager.eventCoins.get(player.getUniqueId()) + "코인",
-                new FontImageWrapper("mcemojis:mc_diamond").getString() + " §d§l후원 포인트 §7: §5§l" + DonatePointManager.donatePoints.get(player.getUniqueId()) + "포인트",
+                new FontImageWrapper("mcemojis:mc_diamond").getString() + " §d§l마일리지 §7: §5§l" + DonatePointManager.donatePoints.get(player.getUniqueId()) + "마일리지",
                 "",
-                "",
+                new FontImageWrapper("mcemojis:mc_clock").getString() + " §e§l" + date,
                 new FontImageWrapper("mcemojis:mc_filled_map").getString() + " §e§lMC-CROSS.MCV.KR " + new FontImageWrapper("mcemojis:mc_filled_map").getString()
         );
     }

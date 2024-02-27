@@ -70,6 +70,7 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GroundMenu(), this);
 
         getServer().getPluginManager().registerEvents(new CheckCommand(), this);
+        getServer().getPluginManager().registerEvents(new SitCommand(), this);
 
         Objects.requireNonNull(getCommand("menu")).setExecutor(new MenuCommand());
         Objects.requireNonNull(getCommand("backto")).setExecutor(new BackToCommand());
@@ -95,6 +96,8 @@ public class Core extends JavaPlugin {
         Objects.requireNonNull(getCommand("eventcoin")).setExecutor(new EventCoinCommand());
         Objects.requireNonNull(getCommand("sendmoney")).setExecutor(new SendMoneyCommand());
         Objects.requireNonNull(getCommand("hat")).setExecutor(new HatCommand());
+        Objects.requireNonNull(getCommand("sit")).setExecutor(new SitCommand());
+        Objects.requireNonNull(getCommand("donate")).setExecutor(new DonateCommand());
 
         Objects.requireNonNull(getCommand("crossemote")).setTabCompleter(new EmoteTabCompletion());
 
@@ -113,6 +116,7 @@ public class Core extends JavaPlugin {
         DivingPointManager.init();
         EventCoinManager.init();
         DonatePointManager.init();
+        DonateManager.init();
 
         Bukkit.getScheduler().runTaskLater(this, () -> {
             getLogger().warning(" ! 서버를 재부팅하신거라면, 이플러그인을 한번 리로드해야합니다! ! ");
@@ -130,12 +134,15 @@ public class Core extends JavaPlugin {
         HomeManager.save();
         StatsManager.save();
         //ShopMenu.save();
-        MaxHealthManager.save();
         PrivateSettingManager.save();
         StockManager.save();
         UserShopManager.save();
         EventCoinManager.save();
         DivingPointManager.save();
+        DonatePointManager.save();
+        DonateManager.toonation.close();
+
+        MaxHealthManager.save(); // 마지막!!!
         saveConfig();
     }
 }

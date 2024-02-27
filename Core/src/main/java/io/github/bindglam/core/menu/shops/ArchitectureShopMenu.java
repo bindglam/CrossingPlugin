@@ -48,6 +48,8 @@ public class ArchitectureShopMenu extends AbstractShopMenu {
         put(Material.SEA_LANTERN, 60000);
         put(Material.SCAFFOLDING, 10000);
         put(Material.CALCITE, 3000);
+        put(Material.QUARTZ_BLOCK, 45);
+        put(Material.SMOOTH_QUARTZ, 50);
     }};
 
     public ArchitectureShopMenu(){

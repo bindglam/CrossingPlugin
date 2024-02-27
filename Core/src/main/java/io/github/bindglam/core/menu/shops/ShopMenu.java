@@ -44,63 +44,53 @@ public class ShopMenu extends Menu {
                 content[1][4] = new AdvItemCreator(Material.COOKED_BEEF).setDisplayName("§e§l음식 상점").getItemStack();
                 content[1][6] = new AdvItemCreator(Material.LIGHT_BLUE_CONCRETE).setDisplayName("§a§l건축 상점").getItemStack();
                 content[1][8] = new AdvItemCreator(Material.END_PORTAL_FRAME).setDisplayName("§d§l기타 상점").getItemStack();
+                content[3][0] = new AdvItemCreator(Material.GLASS).setDisplayName("§f§l가구 상점").getItemStack();
+                content[3][2] = new AdvItemCreator(Material.END_CRYSTAL).setDisplayName("§d§l이벤트 상점").getItemStack();
+                content[3][4] = new AdvItemCreator(Material.GOLD_INGOT).setDisplayName("§5§l마일리지 상점").getItemStack();
 
                 return getPageType().flatten(content);
             }
 
             @Override
             public PageType getPageType() {
-                return PageType.CHEST;
+                return PageType.CHEST_PLUS_PLUS;
             }
 
             @Override
             public void onClick(MenuView view, ClickType clickType, int slot, ItemStack itemStack) {
                 if(itemStack == null) return;
+                switch (itemStack.getType()) {
+                    case DIAMOND_ORE:
+                        new OreShopMenu().open(view.getPlayer(), 0);
+                        break;
 
-                if(clickType == ClickType.SHIFT_LEFT) {
-                    switch (itemStack.getType()) {
-                        case DIAMOND_ORE:
-                            new OreShopMenu().open(view.getPlayer(), 0);
-                            break;
+                    case PUMPKIN:
+                        new CropShopMenu().open(view.getPlayer(), 0);
+                        break;
 
-                        case PUMPKIN:
-                            new CropShopMenu().open(view.getPlayer(), 0);
-                            break;
+                    case COOKED_BEEF:
+                        new FoodShopMenu().open(view.getPlayer(), 0);
+                        break;
 
-                        case COOKED_BEEF:
-                            new FoodShopMenu().open(view.getPlayer(), 0);
-                            break;
+                    case END_PORTAL_FRAME:
+                        new MiscShopMenu().open(view.getPlayer(), 0);
+                        break;
 
-                        case END_PORTAL_FRAME:
-                            new MiscShopMenu().open(view.getPlayer(), 0);
-                            break;
+                    case LIGHT_BLUE_CONCRETE:
+                        new ArchitectureShopMenu().open(view.getPlayer(), 0);
+                        break;
 
-                        case LIGHT_BLUE_CONCRETE:
-                            new ArchitectureShopMenu().open(view.getPlayer(), 0);
-                            break;
-                    }
-                } else {
-                    switch (itemStack.getType()) {
-                        case DIAMOND_ORE:
-                            new OreShopMenu().open(view.getPlayer(), 0);
-                            break;
+                    case GLASS:
+                        new FurnitureShopMenu().open(view.getPlayer(), 0);
+                        break;
 
-                        case PUMPKIN:
-                            new CropShopMenu().open(view.getPlayer(), 0);
-                            break;
+                    case END_CRYSTAL:
+                        new EventShopMenu().open(view.getPlayer(), 0);
+                        break;
 
-                        case COOKED_BEEF:
-                            new FoodShopMenu().open(view.getPlayer(), 0);
-                            break;
-
-                        case END_PORTAL_FRAME:
-                            new MiscShopMenu().open(view.getPlayer(), 0);
-                            break;
-
-                        case LIGHT_BLUE_CONCRETE:
-                            new ArchitectureShopMenu().open(view.getPlayer(), 0);
-                            break;
-                    }
+                    case GOLD_INGOT:
+                        new DonateShopMenu().open(view.getPlayer(), 0);
+                        break;
                 }
             }
         };
