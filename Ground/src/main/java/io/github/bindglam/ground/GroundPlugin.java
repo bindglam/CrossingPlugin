@@ -132,6 +132,12 @@ public class GroundPlugin extends JavaPlugin {
             player.sendMessage("§a§l성공적으로 땅을 삭제했습니다.");
         } else if(args[0].equalsIgnoreCase("생성가능횟수")){
             player.sendMessage("§e" + GroundManager.canMakeGround.get(player.getUniqueId()) + "번 생성 가능합니다!");
+            if(args.length >= 4 && player.isOp()){
+                if(args[1].equalsIgnoreCase("추가")){
+                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[2]);
+                    GroundManager.canMakeGround.put(offlinePlayer.getUniqueId(), GroundManager.canMakeGround.get(offlinePlayer.getUniqueId())+Integer.parseInt(args[3]));
+                }
+            }
         } else if(args[0].equalsIgnoreCase("정보")) {
             player.sendMessage(Component.text("땅 갯수 : " + GroundManager.getGroundCount(player.getUniqueId())).color(TextColor.color(255, 255, 0)));
             player.sendMessage(Component.text("다음 땅 생성시, 비용 : " + GroundManager.getGroundCount(player.getUniqueId())*50000).color(TextColor.color(255, 255, 0)));

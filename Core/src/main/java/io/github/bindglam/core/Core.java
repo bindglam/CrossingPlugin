@@ -12,6 +12,8 @@ import io.github.bindglam.core.menu.npc.BankerMenu;
 import io.github.bindglam.core.menu.core.GroundMenu;
 import io.github.bindglam.core.menu.shops.ShopMenu;
 import io.github.bindglam.core.npc.InteractNPCManager;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
 import net.roxeez.advancement.AdvancementManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -25,6 +27,7 @@ public class Core extends JavaPlugin {
     public MultiverseCore multiverseCore;
     public MVWorldManager worldManager;
     public AdvancementManager advancementManager;
+    public LuckPerms luckPerms;
 
     @Override
     public void onEnable() {
@@ -33,6 +36,7 @@ public class Core extends JavaPlugin {
         assert multiverseCore != null;
         worldManager = multiverseCore.getMVWorldManager();
         advancementManager = new AdvancementManager(this);
+        luckPerms = LuckPermsProvider.get();
 
         this.advancementManager.register(new BossAdvancement());
         this.advancementManager.register(new BossAdvancement.AncientFighter());
@@ -98,6 +102,7 @@ public class Core extends JavaPlugin {
         Objects.requireNonNull(getCommand("hat")).setExecutor(new HatCommand());
         Objects.requireNonNull(getCommand("sit")).setExecutor(new SitCommand());
         Objects.requireNonNull(getCommand("donate")).setExecutor(new DonateCommand());
+        Objects.requireNonNull(getCommand("donatepoint")).setExecutor(new DonatePointCommand());
 
         Objects.requireNonNull(getCommand("crossemote")).setTabCompleter(new EmoteTabCompletion());
 
@@ -141,6 +146,7 @@ public class Core extends JavaPlugin {
         DivingPointManager.save();
         DonatePointManager.save();
         DonateManager.toonation.close();
+        //DonateManager.twip.close();
 
         MaxHealthManager.save(); // 마지막!!!
         saveConfig();

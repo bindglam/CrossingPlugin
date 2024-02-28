@@ -98,7 +98,7 @@ public abstract class InteractNPC {
         @Override
         public void onInteract(PlayerInteractEntityEvent event) {
             Player player = event.getPlayer();
-            if(talkingPlayers.containsKey(player.getName()) || yesNoPlayers.contains(player.getName())) return;
+            if(talkingPlayers.containsKey(player.getName()) || yesNoPlayers.contains(player.getName()) || index.containsKey(player.getName())) return;
             talkingPlayers.put(player.getName(), this);
             index.put(player.getName(), 0);
 
@@ -106,7 +106,7 @@ public abstract class InteractNPC {
                 while(true){
                     if(index.get(player.getName()) >= dialogue.size()){
                         if(!canAnswer) talkingPlayers.remove(player.getName());
-                        index.put(player.getName(), 0);
+                        index.remove(player.getName());
                         Bukkit.getScheduler().scheduleSyncDelayedTask(Core.INSTANCE, () -> onAfterTalk(player), 0L);
                         break;
                     }

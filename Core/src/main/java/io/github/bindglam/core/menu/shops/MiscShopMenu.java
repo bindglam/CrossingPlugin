@@ -48,6 +48,13 @@ public class MiscShopMenu extends AbstractShopMenu {
         put(Material.BAMBOO, 500);
         put(Material.NAME_TAG, 30000);
         put(Material.WRITABLE_BOOK, 50000);
+        for(Material material : Material.values()){
+            if(material.name().contains("SMITHING_TEMPLATE")){
+                put(material, 300000000);
+            }
+        }
+        put(Material.INK_SAC, 4000);
+        put(Material.GLOW_INK_SAC, 70000);
     }};
 
     public static LinkedHashMap<ItemStack, Integer> itemStacks = new LinkedHashMap<>() {{

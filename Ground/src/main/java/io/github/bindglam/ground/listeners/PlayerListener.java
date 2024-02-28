@@ -77,7 +77,7 @@ public class PlayerListener implements Listener {
             if(Objects.equals(owner, player.getUniqueId())) return;
             if(GroundManager.grounders.containsKey((Location) data.get(1))) if(GroundManager.grounders.get((Location) data.get(1)).contains(player.getUniqueId())) return;
 
-            if(event.getClickedBlock().getType() != Material.LECTERN) {
+            if(event.getClickedBlock().getType() != Material.LECTERN && !event.getClickedBlock().getType().name().contains("PRESSURE_PLATE") && !event.getClickedBlock().getType().name().contains("DOOR")) {
                 event.setCancelled(true);
                 player.sendMessage("§c§l이곳은 " + Bukkit.getOfflinePlayer(owner).getName() + "님의 땅입니다.");
             }
