@@ -1,7 +1,8 @@
 /*     */ package io.github.bindglam.core.utils;
 /*     */ 
 /*     */ import io.github.bindglam.core.Core;
-/*     */ import java.util.List;
+/*     */ import java.util.ArrayList;
+import java.util.List;
 /*     */ import net.kyori.adventure.text.Component;
 /*     */ import org.bukkit.Material;
 /*     */ import org.bukkit.NamespacedKey;
@@ -47,7 +48,21 @@
 /*  47 */     this.itemStack.setItemMeta(meta);
 /*  48 */     return this;
 /*     */   }
-/*     */   
+/*     */
+
+    public AdvItemCreator addLore(List<String> lore){
+        ItemMeta meta = getItemMeta();
+        List<String> l;
+        if(meta.hasLore()) {
+            l = new ArrayList<>(meta.getLore());
+            l.addAll(lore);
+        } else {
+            l = lore;
+        }
+        meta.setLore(l);
+        this.itemStack.setItemMeta(meta);
+        return this;
+    }
 /*     */   public AdvItemCreator setLore(List<String> lore) {
 /*  52 */     ItemMeta meta = getItemMeta();
 /*  53 */     meta.setLore(lore);
@@ -67,6 +82,14 @@
 /*  67 */     this.itemStack.setItemMeta(meta);
 /*  68 */     return this;
 /*     */   }
+
+    public AdvItemCreator addPersistentData(String key, double value) {
+        /*  64 */     ItemMeta meta = getItemMeta();
+        /*  65 */     PersistentDataContainer dataContainer = meta.getPersistentDataContainer();
+        /*  66 */     dataContainer.set(new NamespacedKey((Plugin)Core.INSTANCE, key), PersistentDataType.DOUBLE, value);
+        /*  67 */     this.itemStack.setItemMeta(meta);
+        /*  68 */     return this;
+        /*     */   }
 /*     */   
 /*     */   public AdvItemCreator addPersistentData(String key, String value) {
 /*  72 */     ItemMeta meta = getItemMeta();

@@ -9,15 +9,15 @@ import org.bukkit.inventory.ItemStack;
 import java.util.LinkedHashMap;
 
 public class EventShopMenu extends AbstractShopMenu {
-    public static LinkedHashMap<Material, Integer> items = new LinkedHashMap<>() {{
+    public static LinkedHashMap<Material, Double> items = new LinkedHashMap<>() {{
     }};
 
-    public static LinkedHashMap<ItemStack, Integer> itemStacks = new LinkedHashMap<>() {{
+    public static LinkedHashMap<ItemStack, Double> itemStacks = new LinkedHashMap<>() {{
         put(new AdvItemCreator(Material.PAPER).setDisplayName("§f§l인벤토리 §a§l세이브권")
-                .addEnchantment(Enchantment.DURABILITY, 5).getItemStack(), 1000);
+                .addEnchantment(Enchantment.DURABILITY, 5).getItemStack(), 1000.0);
         put(new AdvItemCreator(Material.PAPER).setDisplayName("§b§l강화 §f§l보호권")
-                .addEnchantment(Enchantment.DURABILITY, 5).getItemStack(), 1000);
-        put(new PvPLvResetItem().getItemStack(), 2500);
+                .addEnchantment(Enchantment.DURABILITY, 5).getItemStack(), 1000.0);
+        put(new PvPLvResetItem().getItemStack(), 2500.0);
     }};
 
     public EventShopMenu(){
@@ -25,12 +25,12 @@ public class EventShopMenu extends AbstractShopMenu {
     }
 
     @Override
-    public LinkedHashMap<Material, Integer> getItems() {
+    public LinkedHashMap<Material, Double> getItems() {
         return items;
     }
 
     @Override
-    public LinkedHashMap<ItemStack, Integer> getItemStacks() {
+    public LinkedHashMap<ItemStack, Double> getItemStacks() {
         return itemStacks;
     }
 

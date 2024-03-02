@@ -1,6 +1,9 @@
 package io.github.bindglam.core.managers;
 
 import io.github.bindglam.core.Core;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +15,7 @@ public class StockManager {
     public static int stockChangeTimer = stockChangeTime;
 
     public static void init(){
+        Bukkit.broadcast(Component.text("주식 정보 로드중...").color(NamedTextColor.WHITE));
         StockManager.stocks.put("마크의 숲 (게임 회사)", new ArrayList<>(List.of(
                 1000, //상장가
                 1000, //매매가
@@ -73,6 +77,7 @@ public class StockManager {
     }
 
     public static void save(){
+        Bukkit.broadcast(Component.text("주식 정보 저장중...").color(NamedTextColor.WHITE));
         Core.INSTANCE.getConfig().set("StockNames", stocks.keySet().stream().toList());
         Core.INSTANCE.getConfig().set("StockChangeTimer", stockChangeTimer);
         for(String name : stocks.keySet()){

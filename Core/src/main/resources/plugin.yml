@@ -13,6 +13,18 @@ libraries:
   - io.reactivex.rxjava2:rxjava:2.1.16
   - org.jsoup:jsoup:1.17.2
 commands:
+  ban-player:
+    permission: op
+    aliases:
+      - 밴
+  warn:
+    permission: op
+    aliases:
+      - 경고
+  core-data:
+    permission: op
+    aliases:
+      - 서버데이터
   donatepoint:
     permission: op
   donate:

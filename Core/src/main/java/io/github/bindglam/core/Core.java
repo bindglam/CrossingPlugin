@@ -12,6 +12,8 @@ import io.github.bindglam.core.menu.npc.BankerMenu;
 import io.github.bindglam.core.menu.core.GroundMenu;
 import io.github.bindglam.core.menu.shops.ShopMenu;
 import io.github.bindglam.core.npc.InteractNPCManager;
+import io.github.bindglam.ground.GroundManager;
+import io.github.bindglam.ground.GroundPlugin;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.roxeez.advancement.AdvancementManager;
@@ -73,7 +75,6 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BankerMenu(null), this);
         getServer().getPluginManager().registerEvents(new GroundMenu(), this);
 
-        getServer().getPluginManager().registerEvents(new CheckCommand(), this);
         getServer().getPluginManager().registerEvents(new SitCommand(), this);
 
         Objects.requireNonNull(getCommand("menu")).setExecutor(new MenuCommand());
@@ -103,24 +104,17 @@ public class Core extends JavaPlugin {
         Objects.requireNonNull(getCommand("sit")).setExecutor(new SitCommand());
         Objects.requireNonNull(getCommand("donate")).setExecutor(new DonateCommand());
         Objects.requireNonNull(getCommand("donatepoint")).setExecutor(new DonatePointCommand());
+        Objects.requireNonNull(getCommand("core-data")).setExecutor(new DataCommand());
+        Objects.requireNonNull(getCommand("core-data")).setExecutor(new DataCommand());
+        Objects.requireNonNull(getCommand("ban-player")).setExecutor(new WarnBanCommand());
+        Objects.requireNonNull(getCommand("warn")).setExecutor(new WarnBanCommand());
 
         Objects.requireNonNull(getCommand("crossemote")).setTabCompleter(new EmoteTabCompletion());
 
         getConfig().options().copyDefaults(true);
         saveConfig();
 
-        BankManager.init();
-        BasicItemsCommand.init();
-        PluginItemManager.init();
-        ServerTickListener.init();
-        HomeManager.load();
-        StockManager.init();
-        StatsManager.init();
-        //ShopMenu.load();
-        UserShopManager.load();
-        DivingPointManager.init();
-        EventCoinManager.init();
-        DonatePointManager.init();
+        loadData();
         DonateManager.init();
 
         Bukkit.getScheduler().runTaskLater(this, () -> {
@@ -134,6 +128,33 @@ public class Core extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        saveData(true);
+        DonateManager.toonation.close();
+        //DonateManager.twip.close();
+
+        MaxHealthManager.save(); // 마지막!!!
+        saveConfig();
+    }
+
+    public static void loadData(){
+        GroundManager.load();
+        BankManager.init();
+        BasicItemsCommand.init();
+        PluginItemManager.init();
+        ServerTickListener.init();
+        HomeManager.load();
+        StockManager.init();
+        StatsManager.init();
+        //ShopMenu.load();
+        UserShopManager.load();
+        DivingPointManager.init();
+        EventCoinManager.init();
+        DonatePointManager.init();
+        BanManager.init();
+    }
+
+    public static void saveData(boolean disabling){
+        GroundManager.save();
         BankManager.save();
         BasicItemsCommand.save();
         HomeManager.save();
@@ -145,10 +166,10 @@ public class Core extends JavaPlugin {
         EventCoinManager.save();
         DivingPointManager.save();
         DonatePointManager.save();
-        DonateManager.toonation.close();
-        //DonateManager.twip.close();
-
-        MaxHealthManager.save(); // 마지막!!!
-        saveConfig();
+        BanManager.save();
+        if(!disabling) {
+            GroundPlugin.INSTANCE.saveConfig();
+            Core.INSTANCE.saveConfig();
+        }
     }
 }

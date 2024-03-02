@@ -10,32 +10,32 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.LinkedHashMap;
 
 public class DivingShopMenu extends AbstractShopMenu {
-    public static LinkedHashMap<Material, Integer> items = new LinkedHashMap<>() {{
+    public static LinkedHashMap<Material, Double> items = new LinkedHashMap<>() {{
     }};
 
-    public static LinkedHashMap<ItemStack, Integer> itemStacks = new LinkedHashMap<>() {{
+    public static LinkedHashMap<ItemStack, Double> itemStacks = new LinkedHashMap<>() {{
         put(new AdvItemCreator(Material.NETHERITE_HELMET).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
                 .addEnchantment(Enchantment.DURABILITY, 3)
-                .addEnchantment(Enchantment.MENDING, 1).getItemStack(), 1000);
+                .addEnchantment(Enchantment.MENDING, 1).getItemStack(), 1000.0);
         put(new AdvItemCreator(Material.NETHERITE_CHESTPLATE).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
                 .addEnchantment(Enchantment.DURABILITY, 3)
-                .addEnchantment(Enchantment.MENDING, 1).getItemStack(), 1000);
+                .addEnchantment(Enchantment.MENDING, 1).getItemStack(), 1000.0);
         put(new AdvItemCreator(Material.NETHERITE_LEGGINGS).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
                 .addEnchantment(Enchantment.DURABILITY, 3)
-                .addEnchantment(Enchantment.MENDING, 1).getItemStack(), 1000);
+                .addEnchantment(Enchantment.MENDING, 1).getItemStack(), 1000.0);
         put(new AdvItemCreator(Material.NETHERITE_BOOTS).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
                 .addEnchantment(Enchantment.DURABILITY, 3)
                 .addEnchantment(Enchantment.MENDING, 1)
-                .addEnchantment(Enchantment.PROTECTION_FALL, 4).getItemStack(), 1000);
+                .addEnchantment(Enchantment.PROTECTION_FALL, 4).getItemStack(), 1000.0);
         put(new AdvItemCreator(Material.NETHERITE_SWORD).addEnchantment(Enchantment.DAMAGE_ALL, 5)
                 .addEnchantment(Enchantment.DURABILITY, 3)
                 .addEnchantment(Enchantment.MENDING, 1)
                 .addEnchantment(Enchantment.FIRE_ASPECT, 2)
-                .addEnchantment(Enchantment.LOOT_BONUS_MOBS, 3).getItemStack(), 1500);
+                .addEnchantment(Enchantment.LOOT_BONUS_MOBS, 3).getItemStack(), 1500.0);
         put(new AdvItemCreator(Material.NETHERITE_PICKAXE).addEnchantment(Enchantment.DIG_SPEED, 5)
                 .addEnchantment(Enchantment.DURABILITY, 3)
                 .addEnchantment(Enchantment.MENDING, 1)
-                .addEnchantment(Enchantment.LOOT_BONUS_BLOCKS, 3).getItemStack(), 1500);
+                .addEnchantment(Enchantment.LOOT_BONUS_BLOCKS, 3).getItemStack(), 1500.0);
     }};
 
     public DivingShopMenu(){
@@ -43,12 +43,12 @@ public class DivingShopMenu extends AbstractShopMenu {
     }
 
     @Override
-    public LinkedHashMap<Material, Integer> getItems() {
+    public LinkedHashMap<Material, Double> getItems() {
         return items;
     }
 
     @Override
-    public LinkedHashMap<ItemStack, Integer> getItemStacks() {
+    public LinkedHashMap<ItemStack, Double> getItemStacks() {
         return itemStacks;
     }
 

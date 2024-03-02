@@ -13,12 +13,6 @@ public class ShopCommand implements CommandExecutor {
 
         if(args.length < 1) {
             new ShopMenu().open(player, 0);
-        } else if(args.length > 1 && player.isOp()){
-            if(args[0].equalsIgnoreCase("reload")){
-                ShopMenu.load();
-            } else if(args[0].equalsIgnoreCase("save")){
-                ShopMenu.save();
-            }
         }
         return true;
     }

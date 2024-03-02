@@ -1,22 +1,23 @@
-/*    */ package io.github.bindglam.core.menu;
-/*    */ 
-/*    */ import fr.dwightstudio.dsmapi.Menu;
-/*    */ import fr.dwightstudio.dsmapi.MenuView;
-/*    */ import fr.dwightstudio.dsmapi.pages.Page;
-/*    */ import fr.dwightstudio.dsmapi.pages.PageType;
-/*    */ import net.kyori.adventure.text.Component;
-/*    */ import net.kyori.adventure.text.TextComponent;
-/*    */ import net.kyori.adventure.text.format.TextColor;
-/*    */ import net.kyori.adventure.text.format.TextDecoration;
-/*    */ import org.bukkit.entity.Player;
-/*    */ import org.bukkit.event.inventory.ClickType;
-/*    */ import org.bukkit.inventory.EquipmentSlot;
-/*    */ import org.bukkit.inventory.ItemStack;
-/*    */ 
-/*    */ 
-/*    */ 
-/*    */ 
-/*    */ 
+package io.github.bindglam.core.menu;
+
+import fr.dwightstudio.dsmapi.Menu;
+import fr.dwightstudio.dsmapi.MenuView;
+import fr.dwightstudio.dsmapi.pages.Page;
+import fr.dwightstudio.dsmapi.pages.PageType;
+import io.github.bindglam.core.Core;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
+
 /*    */ public class StealMenu
 /*    */   extends Menu
 /*    */ {
@@ -67,9 +68,15 @@
 /*    */         
 /*    */         public void onClick(MenuView view, ClickType clickType, int slot, ItemStack itemStack) {
 /* 69 */           if (itemStack == null)
-/*    */             return; 
+/*    */             return;
+
+if(itemStack.getPersistentDataContainer().has(new NamespacedKey(Core.INSTANCE, "is-donate-item"))){
+    view.getPlayer().sendMessage(Component.text("후원 아이템은 훔치기가 불가능합니다!").color(NamedTextColor.RED).decorate(TextDecoration.BOLD));
+    return;
+}
+
 /* 71 */           view.close();
-/* 72 */           view.getPlayer().getInventory().addItem(new ItemStack[] { itemStack });
+/* 72 */           view.getPlayer().getInventory().addItem(itemStack);
 /* 73 */           if (slot >= 0 && slot < PageType.CHEST_PLUS.getRow() * 9) {
 /* 74 */             StealMenu.this.player.getInventory().remove(itemStack);
 /* 75 */           } else if (slot == PageType.CHEST_PLUS.getRow() * 9) {

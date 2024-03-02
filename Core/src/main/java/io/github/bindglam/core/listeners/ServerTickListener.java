@@ -38,6 +38,7 @@ public class ServerTickListener implements Listener {
     public static final List<UUID> pvpInGrounds = new ArrayList<>();
 
     public static void init(){
+        Bukkit.broadcast(Component.text("틱 활동 초기화중...").color(NamedTextColor.WHITE));
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Core.INSTANCE, () -> {
             if (ticks.get("Announcement") >= 120 * 20)
                 sendAnnouncement();
@@ -134,7 +135,7 @@ public class ServerTickListener implements Listener {
 
     private static void sendBoard(Player player){
         FastBoard board = new FastBoard(player);
-        board.updateTitle(new FontImageWrapper("mcemojis:mc_bamboo").getString() + "  §a§l마크§b§l의 §9§l숲  " + new FontImageWrapper("mcemojis:mc_bamboo").getString());
+        board.updateTitle(new FontImageWrapper("mcemojis:mc_bamboo").getString() + "  §a마크§b의 §9숲  " + new FontImageWrapper("mcemojis:mc_bamboo").getString());
 
         String grade = "";
         if(player.hasPermission("group.admin"))
@@ -150,16 +151,16 @@ public class ServerTickListener implements Listener {
         String date = simpleDateFormat.format(new Date());
 
         board.updateLines(
-                new FontImageWrapper("mcemojis:mc_name_tag").getString() + " §2§l닉네임 §7: §8" + player.getName(),
-                new FontImageWrapper("mcemojis:mc_dragon_breath").getString() + " §b§l등급 §7: " + grade,
+                new FontImageWrapper("mcemojis:mc_name_tag").getString() + " §2닉네임 §7: §8" + player.getName(),
+                new FontImageWrapper("mcemojis:mc_dragon_breath").getString() + " §b등급 §7: " + grade,
                 "",
-                new FontImageWrapper("mcemojis:mc_emerald").getString() + " §e§l소지금 §7: §6§l" + String.format("%.1f", EconomyManager.getAmount(player.getUniqueId())) + "원",
-                new FontImageWrapper("mcemojis:mc_nether_star").getString() + " §9§l잠수 포인트 §7: §b§l" + DivingPointManager.divingPoints.get(player.getUniqueId()) + "포인트",
-                new FontImageWrapper("mcemojis:mc_gold_nugget").getString() + " §e§l이벤트 포인트 §7: §e§l" + EventCoinManager.eventCoins.get(player.getUniqueId()) + "코인",
-                new FontImageWrapper("mcemojis:mc_diamond").getString() + " §d§l마일리지 §7: §5§l" + DonatePointManager.donatePoints.get(player.getUniqueId()) + "마일리지",
+                new FontImageWrapper("mcemojis:mc_emerald").getString() + " §e소지금 §7: §6" + String.format("%.1f", EconomyManager.getAmount(player.getUniqueId())) + "원",
+                new FontImageWrapper("mcemojis:mc_nether_star").getString() + " §9잠수 포인트 §7: §b" + DivingPointManager.divingPoints.get(player.getUniqueId()) + "포인트",
+                new FontImageWrapper("mcemojis:mc_gold_nugget").getString() + " §e이벤트 포인트 §7: §e" + EventCoinManager.eventCoins.get(player.getUniqueId()) + "코인",
+                new FontImageWrapper("mcemojis:mc_diamond").getString() + " §d마일리지 §7: §5" + DonatePointManager.donatePoints.get(player.getUniqueId()) + "마일리지",
                 "",
-                new FontImageWrapper("mcemojis:mc_clock").getString() + " §e§l" + date,
-                new FontImageWrapper("mcemojis:mc_filled_map").getString() + " §e§lMC-CROSS.MCV.KR " + new FontImageWrapper("mcemojis:mc_filled_map").getString()
+                new FontImageWrapper("mcemojis:mc_clock").getString() + " §e" + date,
+                new FontImageWrapper("mcemojis:mc_filled_map").getString() + " §eMC-CROSS.MCV.KR " + new FontImageWrapper("mcemojis:mc_filled_map").getString()
         );
     }
 

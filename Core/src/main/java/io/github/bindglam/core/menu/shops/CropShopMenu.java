@@ -5,31 +5,31 @@ import org.bukkit.Material;
 import java.util.LinkedHashMap;
 
 public class CropShopMenu extends AbstractShopMenu {
-    public static LinkedHashMap<Material, Integer> items = new LinkedHashMap<>() {{
-        put(Material.MELON, 50);
-        put(Material.PUMPKIN, 55);
-        put(Material.CARVED_PUMPKIN, 60);
-        put(Material.JACK_O_LANTERN, 60);
-        put(Material.HAY_BLOCK, 100);
-        put(Material.WHEAT, 20);
-        put(Material.CARROT, 20);
-        put(Material.POTATO, 20);
-        put(Material.BEETROOT, 25);
-        put(Material.MELON_SEEDS, 80);
-        put(Material.PUMPKIN_SEEDS, 80);
-        put(Material.WHEAT_SEEDS, 50);
-        put(Material.BEETROOT_SEEDS, 55);
-        put(Material.BONE_MEAL, 50);
-        put(Material.BONE, 450);
-        put(Material.SUGAR_CANE, 50);
+    public static LinkedHashMap<Material, Double> items = new LinkedHashMap<>() {{
+        put(Material.MELON, 50.0);
+        put(Material.PUMPKIN, 55.0);
+        put(Material.CARVED_PUMPKIN, 60.0);
+        put(Material.JACK_O_LANTERN, 60.0);
+        put(Material.HAY_BLOCK, 100.0);
+        put(Material.WHEAT, 20.0);
+        put(Material.CARROT, 20.0);
+        put(Material.POTATO, 20.0);
+        put(Material.BEETROOT, 25.0);
+        put(Material.MELON_SEEDS, 80.0);
+        put(Material.PUMPKIN_SEEDS, 80.0);
+        put(Material.WHEAT_SEEDS, 50.0);
+        put(Material.BEETROOT_SEEDS, 55.0);
+        put(Material.BONE_MEAL, 50.0);
+        put(Material.BONE, 450.0);
+        put(Material.SUGAR_CANE, 50.0);
 
-        put(Material.SUNFLOWER, 10);
+        put(Material.SUNFLOWER, 10.0);
 
         for(Material material : Material.values()){
             if(material.name().contains("SAPLING")){
-                put(material, 50);
+                put(material, 50.0);
             } else if(material.name().contains("TULIP")){
-                put(material, 50);
+                put(material, 50.0);
             }
         }
     }};
@@ -39,7 +39,7 @@ public class CropShopMenu extends AbstractShopMenu {
     }
 
     @Override
-    public LinkedHashMap<Material, Integer> getItems() {
+    public LinkedHashMap<Material, Double> getItems() {
         return items;
     }
 }

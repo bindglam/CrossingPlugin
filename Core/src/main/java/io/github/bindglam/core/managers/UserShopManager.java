@@ -1,5 +1,8 @@
 /*    */ package io.github.bindglam.core.managers;
 /*    */ import io.github.bindglam.core.Core;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 /*    */ import java.util.ArrayList;
 /*    */ import java.util.HashMap;
 /*    */ import java.util.List;
@@ -10,6 +13,7 @@
 /* 10 */   public static final HashMap<UUID, List<Object>> data = new HashMap<>();
 /*    */   
 /*    */   public static void load() {
+    Bukkit.broadcast(Component.text("유저상점 로드중...").color(NamedTextColor.WHITE));
 /* 13 */     for (String strUUID : Core.INSTANCE.getConfig().getStringList("UserShopUUIDs")) {
 /* 14 */       UUID uuid = UUID.fromString(strUUID);
 /* 15 */       data.put(uuid, List.of(Objects.requireNonNull(Core.INSTANCE.getConfig().getItemStack("UserShopItemStacks." + uuid)), Objects.requireNonNull(Core.INSTANCE.getConfig().get("UserShopItemCosts." + uuid)), 
@@ -18,6 +22,7 @@
 /*    */   }
 /*    */   
 /*    */   public static void save() {
+    Bukkit.broadcast(Component.text("유저상점 저장중...").color(NamedTextColor.WHITE));
 /* 21 */     List<String> uuidData = new ArrayList<>();
 /* 22 */     for (UUID uuid : data.keySet()) {
 /* 23 */       uuidData.add(uuid.toString());

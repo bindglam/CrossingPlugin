@@ -1,6 +1,8 @@
 package io.github.bindglam.core.managers;
 
 import io.github.bindglam.core.Core;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -13,6 +15,7 @@ public class HomeManager {
     public static final HashMap<UUID, Location> homes = new HashMap<>();
 
     public static void load() {
+        Bukkit.broadcast(Component.text("홈 정보 로드중...").color(NamedTextColor.WHITE));
         for(String data : Core.INSTANCE.getConfig().getStringList("Homes")){
             UUID uuid = UUID.fromString(data.split(":")[0]);
             String locStr = data.split(":")[1];
@@ -40,6 +43,7 @@ public class HomeManager {
     }
 
     public static void save(){
+        Bukkit.broadcast(Component.text("홈 정보 저장중...").color(NamedTextColor.WHITE));
         ArrayList<String> data = new ArrayList<>();
         for(UUID uuid : homes.keySet()){
             Location loc = homes.get(uuid);

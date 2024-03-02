@@ -3,6 +3,9 @@ package io.github.bindglam.core.commands;
 import io.github.bindglam.core.Core;
 import io.github.bindglam.core.utils.AdvItemCreator;
 import io.github.bindglam.economy.EconomyManager;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -48,10 +51,12 @@ public class BasicItemsCommand implements CommandExecutor {
     }
 
     public static void init(){
+        Bukkit.broadcast(Component.text("기본템 정보 로드중...").color(NamedTextColor.WHITE));
         gotBasicItemsPlayers.addAll(Core.INSTANCE.getConfig().getStringList("gotBasicItemsPlayers"));
     }
 
     public static void save(){
+        Bukkit.broadcast(Component.text("기본템 저장중...").color(NamedTextColor.WHITE));
         Core.INSTANCE.getConfig().set("gotBasicItemsPlayers", gotBasicItemsPlayers);
     }
 }

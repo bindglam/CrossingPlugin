@@ -7,26 +7,27 @@ import org.bukkit.inventory.ItemStack;
 import java.util.LinkedHashMap;
 
 public class OreShopMenu extends AbstractShopMenu {
-    public static LinkedHashMap<Material, Integer> items = new LinkedHashMap<>() {{
-        put(Material.COAL, 2);
-        put(Material.CHARCOAL, 3);
-        put(Material.IRON_INGOT, 7);
-        put(Material.GOLD_INGOT, 7);
-        put(Material.LAPIS_LAZULI, 10);
-        put(Material.REDSTONE, 10);
-        put(Material.DIAMOND, 400);
-        put(Material.EMERALD, 400);
-        put(Material.QUARTZ, 5);
-        put(Material.COPPER_INGOT, 5);
-        put(Material.NETHERITE_SCRAP, 120);
-        put(Material.NETHERITE_INGOT, 600);
-        put(Material.AMETHYST_SHARD, 50);
-        put(Material.AMETHYST_BLOCK, 70);
-        put(Material.ECHO_SHARD, 120);
+    public static LinkedHashMap<Material, Double> items = new LinkedHashMap<>() {{
+        put(Material.COAL, 5.0);
+        put(Material.CHARCOAL, 5.0);
+        put(Material.IRON_INGOT, 14.0);
+        put(Material.GOLD_INGOT, 14.0);
+        put(Material.LAPIS_LAZULI, 20.0);
+        put(Material.REDSTONE, 22.0);
+        put(Material.DIAMOND, 100.0);
+        put(Material.EMERALD, 200.0);
+        put(Material.QUARTZ, 5.0);
+        put(Material.COPPER_INGOT, 5.0);
+        put(Material.NETHERITE_SCRAP, 120.0);
+        put(Material.NETHERITE_INGOT, 600.0);
+        put(Material.AMETHYST_SHARD, 50.0);
+        put(Material.AMETHYST_BLOCK, 70.0);
+        put(Material.ECHO_SHARD, 120.0);
+        put(Material.FLINT, 2.0);
     }};
 
-    public static LinkedHashMap<ItemStack, Integer> itemStacks = new LinkedHashMap<>() {{
-        put(CustomStack.getInstance("minecraftcross:ruby").getItemStack(), 400);
+    public static LinkedHashMap<ItemStack, Double> itemStacks = new LinkedHashMap<>() {{
+        put(CustomStack.getInstance("minecraftcross:ruby").getItemStack(), 400.0);
     }};
 
     public OreShopMenu(){
@@ -34,12 +35,12 @@ public class OreShopMenu extends AbstractShopMenu {
     }
 
     @Override
-    public LinkedHashMap<Material, Integer> getItems() {
+    public LinkedHashMap<Material, Double> getItems() {
         return items;
     }
 
     @Override
-    public LinkedHashMap<ItemStack, Integer> getItemStacks() {
+    public LinkedHashMap<ItemStack, Double> getItemStacks() {
         return itemStacks;
     }
 }

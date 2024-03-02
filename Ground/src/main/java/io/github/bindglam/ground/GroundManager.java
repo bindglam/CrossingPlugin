@@ -1,6 +1,8 @@
 package io.github.bindglam.ground;
 
 import com.google.common.collect.Lists;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -19,6 +21,7 @@ public class GroundManager implements Listener {
     public static final LinkedHashMap<UUID, Integer> canMakeGround = new LinkedHashMap<>();
 
     public static void load(){
+        Bukkit.broadcast(Component.text("땅 정보 로드중...").color(NamedTextColor.WHITE));
         for(String data : GroundPlugin.INSTANCE.getConfig().getStringList("Grounds")){
             String posStr = data.split(":")[0];
             String plrName = data.split(":")[1];
@@ -78,6 +81,7 @@ public class GroundManager implements Listener {
     }
 
     public static void save(){
+        Bukkit.broadcast(Component.text("땅 정보 저장중...").color(NamedTextColor.WHITE));
         List<String> data = new ArrayList<>();
         for(Location loc : grounds.keySet()){
             UUID plrName = grounds.get(loc);

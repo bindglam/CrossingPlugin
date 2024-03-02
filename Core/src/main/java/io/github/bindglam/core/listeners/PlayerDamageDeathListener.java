@@ -219,8 +219,10 @@ public class PlayerDamageDeathListener implements Listener {
                 damagerStats.pvpLv++;
                 damager.sendMessage(Component.text("§4§l하지만 당신의 PvP 레벨이 상승하였습니다... §7( Lv." + damagerStats.pvpLv + " )"));
                 damager.sendMessage(Component.text("§cPvP 레벨이 25렙 이상이 된다면 더 이상 인벤토리가 보호되지 않습니다!"));
-                if (damagerStats.pvpLv >= 25)
+                if (damagerStats.pvpLv >= 25) {
                     AdvancementUtil.awardAdvancement(damager, new NamespacedKey(Core.INSTANCE, "kill_player_25"), "complete");
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + damager.getName() + " parent set killer");
+                }
 
                 AdvancementUtil.awardAdvancement(damager, new NamespacedKey(Core.INSTANCE, KillPlayerAdvancement.ID), "complete");
 

@@ -47,6 +47,7 @@ public class ShopMenu extends Menu {
                 content[3][0] = new AdvItemCreator(Material.GLASS).setDisplayName("§f§l가구 상점").getItemStack();
                 content[3][2] = new AdvItemCreator(Material.END_CRYSTAL).setDisplayName("§d§l이벤트 상점").getItemStack();
                 content[3][4] = new AdvItemCreator(Material.GOLD_INGOT).setDisplayName("§5§l마일리지 상점").getItemStack();
+                content[3][6] = new AdvItemCreator(Material.LEATHER_CHESTPLATE).setDisplayName("§d§l치장품 상점").getItemStack();
 
                 return getPageType().flatten(content);
             }
@@ -91,6 +92,10 @@ public class ShopMenu extends Menu {
                     case GOLD_INGOT:
                         new DonateShopMenu().open(view.getPlayer(), 0);
                         break;
+
+                    case LEATHER_CHESTPLATE:
+                        new CosmeticsShopMenu().open(view.getPlayer(), 0);
+                        break;
                 }
             }
         };
@@ -100,69 +105,5 @@ public class ShopMenu extends Menu {
     @Override
     public int getPageCount() {
         return 1;
-    }
-
-    public static void load(){
-        LinkedHashMap<Material, Integer> oreitems = new LinkedHashMap<>();
-        LinkedHashMap<Material, Integer> miscitems = new LinkedHashMap<>();
-        LinkedHashMap<Material, Integer> fooditems = new LinkedHashMap<>();
-        LinkedHashMap<Material, Integer> cropitems = new LinkedHashMap<>();
-        LinkedHashMap<Material, Integer> architectureitems = new LinkedHashMap<>();
-        for(int i = 0; i < 5*9+9; i++) {
-            if(Core.INSTANCE.getConfig().get("OreShop." + i + ".material") != null){
-                oreitems.put(Material.getMaterial(Objects.requireNonNull(Core.INSTANCE.getConfig().getString("OreShop." + i + ".material"))),
-                        (Integer) Core.INSTANCE.getConfig().get("OreShop." + i + ".cost"));
-            }
-            if(Core.INSTANCE.getConfig().get("MiscShop." + i + ".material") != null){
-                miscitems.put(Material.getMaterial(Objects.requireNonNull(Core.INSTANCE.getConfig().getString("MiscShop." + i + ".material"))),
-                        (Integer) Core.INSTANCE.getConfig().get("MiscShop." + i + ".cost"));
-            }
-            if(Core.INSTANCE.getConfig().get("FoodShop." + i + ".material") != null){
-                fooditems.put(Material.getMaterial(Objects.requireNonNull(Core.INSTANCE.getConfig().getString("FoodShop." + i + ".material"))),
-                        (Integer) Core.INSTANCE.getConfig().get("FoodShop." + i + ".cost"));
-            }
-            if(Core.INSTANCE.getConfig().get("CropShop." + i + ".material") != null){
-                cropitems.put(Material.getMaterial(Objects.requireNonNull(Core.INSTANCE.getConfig().getString("CropShop." + i + ".material"))),
-                        (Integer) Core.INSTANCE.getConfig().get("CropShop." + i + ".cost"));
-            }
-            if(Core.INSTANCE.getConfig().get("ArchitectureShop." + i + ".material") != null){
-                architectureitems.put(Material.getMaterial(Objects.requireNonNull(Core.INSTANCE.getConfig().getString("ArchitectureShop." + i + ".material"))),
-                        (Integer) Core.INSTANCE.getConfig().get("ArchitectureShop." + i + ".cost"));
-            }
-        }
-
-        if(Core.INSTANCE.getConfig().get("ArchitectureShop.0.material") != null) {
-            OreShopMenu.items = oreitems;
-            MiscShopMenu.items = miscitems;
-            FoodShopMenu.items = fooditems;
-            CropShopMenu.items = cropitems;
-            ArchitectureShopMenu.items = architectureitems;
-            Core.INSTANCE.getLogger().info("Loaded Shop items successfully!");
-        }
-    }
-
-    public static void save(){
-        for(int i = 0; i < 5*9+9; i++) {
-            if(new OreShopMenu().getItems().keySet().size() > i) {
-                Core.INSTANCE.getConfig().set("OreShop." + i + ".material", new OreShopMenu().getItems().keySet().stream().toList().get(i).toString());
-                Core.INSTANCE.getConfig().set("OreShop." + i + ".cost", new OreShopMenu().getItems().values().stream().toList().get(i));
-            }
-            if(new MiscShopMenu().getItems().keySet().size() > i) {
-                Core.INSTANCE.getConfig().set("MiscShop." + i + ".material", new MiscShopMenu().getItems().keySet().stream().toList().get(i).toString());
-                Core.INSTANCE.getConfig().set("MiscShop." + i + ".cost", new MiscShopMenu().getItems().values().stream().toList().get(i));
-            }
-            if(new FoodShopMenu().getItems().keySet().size() > i) {
-                Core.INSTANCE.getConfig().set("FoodShop." + i + ".material", new FoodShopMenu().getItems().keySet().stream().toList().get(i).toString());
-                Core.INSTANCE.getConfig().set("FoodShop." + i + ".cost", new FoodShopMenu().getItems().values().stream().toList().get(i));
-            }
-            if(new CropShopMenu().getItems().keySet().size() > i) {
-                Core.INSTANCE.getConfig().set("CropShop." + i + ".material", new CropShopMenu().getItems().keySet().stream().toList().get(i).toString());
-                Core.INSTANCE.getConfig().set("CropShop." + i + ".cost", new CropShopMenu().getItems().values().stream().toList().get(i));
-            }
-            if(new ArchitectureShopMenu().getItems().keySet().size() > i) {
-                Core.INSTANCE.getConfig().set("ArchitectureShop." + i + ".material", new ArchitectureShopMenu().getItems().keySet().stream().toList().get(i).toString());
-                Core.INSTANCE.getConfig().set("ArchitectureShop." + i + ".cost", new ArchitectureShopMenu().getItems().values().stream().toList().get(i));
-            }
-        }
     }
 }

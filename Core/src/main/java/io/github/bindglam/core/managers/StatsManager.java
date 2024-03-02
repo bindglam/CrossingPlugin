@@ -2,8 +2,10 @@ package io.github.bindglam.core.managers;
 
 import io.github.bindglam.core.Core;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -12,6 +14,7 @@ public class StatsManager {
     public static final HashMap<UUID, Stats> statsMap = new HashMap<>();
 
     public static void init(){
+        Bukkit.broadcast(Component.text("스텟 정보 로드중...").color(NamedTextColor.WHITE));
         for(String str : Core.INSTANCE.getConfig().getStringList("Stats")){
             UUID uuid = UUID.fromString(str.split(":")[0]);
             String[] dataList = str.split(":")[1].split(",");
@@ -49,6 +52,7 @@ public class StatsManager {
     }
 
     public static void save(){
+        Bukkit.broadcast(Component.text("스텟 정보 저장중...").color(NamedTextColor.WHITE));
         List<String> data = new ArrayList<>();
         for(UUID uuid : statsMap.keySet()){
             Stats stats = statsMap.get(uuid);

@@ -3,6 +3,8 @@ package io.github.bindglam.core.items;
 import dev.lone.itemsadder.api.CustomStack;
 import io.github.bindglam.core.Core;
 import io.github.bindglam.core.items.blocks.EnhanceBlock;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,9 +16,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class PluginItemManager implements Listener {
-    public static final List<PluginItem> pluginItems = List.of(new GoldenHeadItem("qlsdn516"), new EnhanceBlock(), new PvPLvResetItem());
+    public static final List<PluginItem> pluginItems = List.of(new GoldenHeadItem("qlsdn516"), new EnhanceBlock(), new PvPLvResetItem(), new CheckItem(0.0),
+            new CosmeticGetItem("", ""));
 
     public static void init() {
+        Bukkit.broadcast(Component.text("커스텀 아이템 초기화중...").color(NamedTextColor.WHITE));
         for (PluginItem pluginItem : pluginItems) {
             if(pluginItem.getCustomStack() == null){ continue; }
             Bukkit.getPluginManager().registerEvents(pluginItem, Core.INSTANCE);
