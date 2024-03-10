@@ -57,10 +57,10 @@ public class DonateManager {
         if(Objects.equals(donation.getNickName(), "로얄감자"))
             patronOffline = Bukkit.getOfflinePlayer("Octtato");
         for(Player player : Bukkit.getOnlinePlayers()){
-            player.sendMessage(Component.text(donation.getNickName()).decorate(TextDecoration.BOLD).color(NamedTextColor.WHITE)
-                    .append(Component.text("님께서 후원을 해주셨습니다! ( 금액 : " + donation.getAmount() + "캐시 )").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD)).appendNewline()
+            player.sendMessage(Component.text(donation.getNickName()).color(NamedTextColor.WHITE)
+                    .append(Component.text("님께서 후원을 해주셨습니다! ( 금액 : " + donation.getAmount() + "캐시 )").color(NamedTextColor.GREEN)).appendNewline()
                     .append(Component.text("후원 내용 ").color(NamedTextColor.YELLOW).append(Component.text(": ").color(NamedTextColor.GRAY)
-                            .append(Component.text(donation.getComment()).color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD)))));
+                            .append(Component.text(donation.getComment()).color(NamedTextColor.YELLOW)))));
         }
 
         if(!DonatePointManager.donatePoints.containsKey(patronOffline.getUniqueId()))

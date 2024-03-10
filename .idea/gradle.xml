@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/AntiLag" />
+            <option value="$PROJECT_DIR$/Battle" />
             <option value="$PROJECT_DIR$/BattleCraft" />
             <option value="$PROJECT_DIR$/Core" />
             <option value="$PROJECT_DIR$/Economy" />

@@ -71,7 +71,7 @@ import java.util.List;
 /*    */             return;
 
 if(itemStack.getPersistentDataContainer().has(new NamespacedKey(Core.INSTANCE, "is-donate-item"))){
-    view.getPlayer().sendMessage(Component.text("후원 아이템은 훔치기가 불가능합니다!").color(NamedTextColor.RED).decorate(TextDecoration.BOLD));
+    view.getPlayer().sendMessage(Component.text("후원 아이템은 훔치기가 불가능합니다!").color(NamedTextColor.RED));
     return;
 }
 
@@ -90,7 +90,7 @@ if(itemStack.getPersistentDataContainer().has(new NamespacedKey(Core.INSTANCE, "
 /* 83 */           } else if (slot == PageType.CHEST_PLUS.getRow() * 9 + 4) {
 /* 84 */             StealMenu.this.player.getInventory().setItemInOffHand(null);
 /*    */           } 
-/* 86 */           view.getPlayer().sendMessage(((TextComponent)Component.text("훔치기 성공!").color(TextColor.color(0, 255, 0))).decorate(TextDecoration.BOLD));
+/* 86 */           view.getPlayer().sendMessage(((TextComponent)Component.text("훔치기 성공!").color(TextColor.color(0, 255, 0))));
 /*    */         }
 /*    */       };
 /* 89 */     return pages;

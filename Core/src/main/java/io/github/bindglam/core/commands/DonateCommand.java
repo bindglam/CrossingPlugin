@@ -19,10 +19,10 @@ public class DonateCommand implements CommandExecutor {
 
         sender.sendMessage("§b§l후원§f은 §9§l투네이션§f으로 진행됩니다.");
         sender.sendMessage(Component.text("링크 : ").color(NamedTextColor.AQUA)
-                .append(Component.text("https://toon.at/donate/637537175649089005").color(NamedTextColor.WHITE).decorate(TextDecoration.BOLD).clickEvent(ClickEvent.clickEvent(ClickEvent.Action.OPEN_URL, "https://toon.at/donate/637537175649089005")))
+                .append(Component.text("https://toon.at/donate/637537175649089005").color(NamedTextColor.WHITE).clickEvent(ClickEvent.clickEvent(ClickEvent.Action.OPEN_URL, "https://toon.at/donate/637537175649089005")))
                 .appendNewline()
                 .appendNewline()
-                .append(Component.text("1 캐시 = 1 마일리지").color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD)));
+                .append(Component.text("1 캐시 = 1 마일리지").color(NamedTextColor.YELLOW)));
         return true;
     }
 }

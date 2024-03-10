@@ -225,12 +225,12 @@ public class EnhanceMenu extends Menu {
                 player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 100f, 1.0f);
                 if (!item.getType().isArmor() && !additionalEnhanceAbleArmors.contains(item.getDisplayName()) && !item.getType().name().contains("PICKAXE") && !item.getType().name().contains("SHOVEL") &&
                         !item.getType().name().contains("AXE")) {
-                    this.player.sendMessage(Component.text("전설의 검이 탄생했습니다!").color(TextColor.color(255, 255, 0)).decorate(TextDecoration.BOLD));
+                    this.player.sendMessage(Component.text("전설의 검이 탄생했습니다!").color(TextColor.color(255, 255, 0)));
                 } else if (item.getType().isArmor() || (additionalEnhanceAbleArmors.contains(item.getDisplayName()) && !item.getType().name().contains("PICKAXE") && !item.getType().name().contains("SHOVEL") &&
                         !item.getType().name().contains("AXE"))) {
-                    this.player.sendMessage(Component.text("전설의 갑옷이 탄생했습니다!").color(TextColor.color(255, 255, 0)).decorate(TextDecoration.BOLD));
+                    this.player.sendMessage(Component.text("전설의 갑옷이 탄생했습니다!").color(TextColor.color(255, 255, 0)));
                 } else if (item.getType().name().contains("PICKAXE") || item.getType().name().contains("SHOVEL") || item.getType().name().contains("AXE")) {
-                    this.player.sendMessage(Component.text("전설의 도구가 탄생했습니다!").color(TextColor.color(255, 255, 0)).decorate(TextDecoration.BOLD));
+                    this.player.sendMessage(Component.text("전설의 도구가 탄생했습니다!").color(TextColor.color(255, 255, 0)));
                 }
 
                 AdvancementUtil.awardAdvancement(player, new NamespacedKey(Core.INSTANCE, EnhanceAdvancement.ID), "complete");

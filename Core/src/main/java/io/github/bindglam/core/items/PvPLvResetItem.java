@@ -28,7 +28,7 @@ public class PvPLvResetItem extends PluginItem {
         StatsManager.Stats stats = StatsManager.getStats(player.getUniqueId());
 
         stats.pvpLv = 0;
-        player.sendMessage(Component.text("PvP 레벨을 초기화했습니다! 앞으로는 조심해주세요~").color(TextColor.color(255, 255, 0)).decorate(TextDecoration.BOLD));
+        player.sendMessage(Component.text("PvP 레벨을 초기화했습니다! 앞으로는 조심해주세요~").color(TextColor.color(255, 255, 0)));
         player.playSound(player.getLocation(), Sound.ENTITY_PIG_HURT, 100f, 1.2f);
         InvUtils.consumeItem(player, 1, player.getInventory().getItemInMainHand());
     }

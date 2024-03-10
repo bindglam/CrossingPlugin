@@ -30,17 +30,17 @@ public class StockCommand implements CommandExecutor {
                     Integer.parseInt(args[2]), //현재 갯수
                     "0"                      //기록
             )));
-            player.sendMessage(Component.text("주식을 생성하였습니다!").color(TextColor.color(0, 255, 0)).decorate(TextDecoration.BOLD));
+            player.sendMessage(Component.text("주식을 생성하였습니다!").color(TextColor.color(0, 255, 0)));
         } else if(args[0].equalsIgnoreCase("삭제") && args.length >= 2 && player.isOp()){
             if(StockManager.stocks.containsKey(args[1])) {
                 StockManager.stocks.remove(args[1]);
-                player.sendMessage(Component.text("주식을 삭제하였습니다!").color(TextColor.color(255, 255, 0)).decorate(TextDecoration.BOLD));
+                player.sendMessage(Component.text("주식을 삭제하였습니다!").color(TextColor.color(255, 255, 0)));
             } else {
-                player.sendMessage(Component.text("입력한 주식은 존재하지 않습니다!").color(TextColor.color(255, 0, 0)).decorate(TextDecoration.BOLD));
+                player.sendMessage(Component.text("입력한 주식은 존재하지 않습니다!").color(TextColor.color(255, 0, 0)));
             }
         } else if(args[0].equalsIgnoreCase("열기")) {
             new StockMenu().open(player, 0);
-            player.sendMessage(Component.text("주식을 판매하실때 아이템을 나누어서 인벤토리에 저장해주세요!").color(TextColor.color(255, 255, 0)).decorate(TextDecoration.BOLD));
+            player.sendMessage(Component.text("주식을 판매하실때 아이템을 나누어서 인벤토리에 저장해주세요!").color(TextColor.color(255, 255, 0)));
             player.playSound(player.getLocation(), "block.ender_chest.open", 100f, 1.4f);
         }
         return true;

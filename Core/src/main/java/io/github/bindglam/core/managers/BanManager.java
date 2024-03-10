@@ -40,7 +40,7 @@ public class BanManager {
         BanManager.warnCounts.put(offlinePlayer.getUniqueId(), BanManager.warnCounts.get(offlinePlayer.getUniqueId())+1);
         if(Bukkit.getPlayer(offlinePlayer.getUniqueId()) != null){
             Objects.requireNonNull(Bukkit.getPlayer(offlinePlayer.getUniqueId())).sendMessage(Component.newline()
-                    .append(Component.text("당신은 규칙을 어겨 경고 1회를 받았습니다! ( 현재 경고 갯수 : " + BanManager.warnCounts.get(offlinePlayer.getUniqueId()) + " )").color(NamedTextColor.DARK_RED).decorate(TextDecoration.BOLD)).appendNewline()
+                    .append(Component.text("당신은 규칙을 어겨 경고 1회를 받았습니다! ( 현재 경고 갯수 : " + BanManager.warnCounts.get(offlinePlayer.getUniqueId()) + " )").color(NamedTextColor.DARK_RED)).appendNewline()
                     .append(Component.text(" - 사유 : " + reason).color(NamedTextColor.RED)).appendNewline());
         }
         if(BanManager.warnCounts.get(offlinePlayer.getUniqueId()) >= 3){

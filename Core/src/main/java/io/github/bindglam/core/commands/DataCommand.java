@@ -19,10 +19,10 @@ public class DataCommand implements CommandExecutor {
 
         if(args[0].equalsIgnoreCase("load")){
             Core.loadData();
-            Bukkit.broadcast(Component.text("서버 데이터가 로드되었습니다!").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD));
+            Bukkit.broadcast(Component.text("서버 데이터가 로드되었습니다!").color(NamedTextColor.GREEN));
         } else if(args[0].equalsIgnoreCase("save")) {
             Core.saveData(false);
-            Bukkit.broadcast(Component.text("서버 데이터가 저장되었습니다!").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD));
+            Bukkit.broadcast(Component.text("서버 데이터가 저장되었습니다!").color(NamedTextColor.GREEN));
         }
         return true;
     }

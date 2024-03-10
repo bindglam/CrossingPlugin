@@ -171,6 +171,9 @@ public class CoreMenu extends Menu {
                 content[0][8] = new AdvItemCreator(Material.PLAYER_HEAD).makeHead(player.getName()).setDisplayName(player.getName())
                         .getItemStack();
 
+                content[1][1] = new AdvItemCreator(Material.IRON_SWORD).setDisplayName("§c§lPvP장")
+                        .getItemStack();
+
                 content[4][0] = new AdvItemCreator(Material.ARROW).setDisplayName("§7§l뒤로")
                         .getItemStack();
                 content[4][8] = new AdvItemCreator(Material.ARROW).setDisplayName("§7§l다음으로")
@@ -199,6 +202,10 @@ public class CoreMenu extends Menu {
                 }
 
                 switch (itemStack.getType()){
+                    case IRON_SWORD:
+                        view.getPlayer().playSound(view.getPlayer(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 100f, 1.5f);
+                        new PvPMenu().open(view.getPlayer(), 0);
+                        break;
                 }
             }
         };

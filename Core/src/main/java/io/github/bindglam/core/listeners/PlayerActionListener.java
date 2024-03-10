@@ -1,14 +1,13 @@
 package io.github.bindglam.core.listeners;
 
-import io.github.bindglam.core.managers.EventCoinManager;
-import io.github.bindglam.core.managers.PrivateSettingManager;
-import io.github.bindglam.core.managers.StatsManager;
+import io.github.bindglam.core.managers.*;
 import io.github.bindglam.core.menu.core.CoreMenu;
 import io.github.bindglam.ground.GroundManager;
 import io.github.bindglam.ground.events.GroundEnterEvent;
 import io.github.bindglam.ground.events.GroundExitEvent;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -23,6 +22,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.intellij.lang.annotations.RegExp;
 import org.purpurmc.purpur.event.ExecuteCommandEvent;
 
 import java.time.Duration;
@@ -52,16 +52,18 @@ public class PlayerActionListener implements Listener {
         List<Object> data = GroundManager.isInGround(player);
         if(data != null) {
             if(ServerTickListener.pvpTimes.containsKey(player.getUniqueId()) && !ServerTickListener.pvpInGrounds.contains(player.getUniqueId())){
-                event.setCancelled(true);
+                event.setTo(event.getFrom());
                 player.sendActionBar(Component.text("PvP중에는 땅에 들어갈 수 없습니다!").color(TextColor.color(255, 0, 0)));
             }
         }
+
+        ServerTickListener.divingTimes.put(player.getUniqueId(), 0);
     }
 
     @EventHandler
     public void onAdvancementDone(PlayerAdvancementDoneEvent event){
         if(event.message() == null) return;
-        event.message(Component.text("\uD83D\uDCD6").color(TextColor.color(255, 206, 0)).decorate(TextDecoration.BOLD)
+        event.message(Component.text("\uD83D\uDCD6").color(TextColor.color(255, 206, 0))
                 .append(Component.text(" | ").color(TextColor.color(255, 255, 255)))
                 .append(Objects.requireNonNull(event.message()).color(TextColor.color(255, 207, 248))));
     }
@@ -74,7 +76,7 @@ public class PlayerActionListener implements Listener {
 
         if((boolean) setting.settings.get("GroundEnterMessage")){
             UUID uuid = GroundManager.grounds.get((Location) data.get(1));
-            player.showTitle(Title.title(Component.text(Objects.requireNonNull(Bukkit.getOfflinePlayer(uuid).getName())).color(TextColor.color(255, 255, 0)).decorate(TextDecoration.BOLD),
+            player.showTitle(Title.title(Component.text(Objects.requireNonNull(Bukkit.getOfflinePlayer(uuid).getName())).color(TextColor.color(255, 255, 0)),
                     Component.text("님의 땅에 들오셨습니다!").color(NamedTextColor.WHITE), Title.Times.times(Duration.ofNanos(100), Duration.ofNanos(1000), Duration.ofNanos(100))));
         }
     }
@@ -106,7 +108,7 @@ public class PlayerActionListener implements Listener {
                         for(Player otherPlayer : Bukkit.getOnlinePlayers()){
                             otherPlayer.sendMessage(Component.text(player.getName() + "님께서 이벤트 문제를 맞추셨습니다!").color(NamedTextColor.GREEN));
                         }
-                        player.sendMessage(Component.text("정답입니다!").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD));
+                        player.sendMessage(Component.text("정답입니다!").color(NamedTextColor.GREEN));
                         if(!EventCoinManager.eventCoins.containsKey(player.getUniqueId()))
                             EventCoinManager.eventCoins.put(player.getUniqueId(), 0);
                         EventCoinManager.eventCoins.put(player.getUniqueId(), EventCoinManager.eventCoins.get(player.getUniqueId())+1);
@@ -119,7 +121,7 @@ public class PlayerActionListener implements Listener {
                         for(Player otherPlayer : Bukkit.getOnlinePlayers()){
                             otherPlayer.sendMessage(Component.text(player.getName() + "님께서 이벤트 쿠폰을 입력하셨습니다!").color(NamedTextColor.GREEN));
                         }
-                        player.sendMessage(Component.text("당신은 쿠폰을 입력하셨습니다!").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD));
+                        player.sendMessage(Component.text("당신은 쿠폰을 입력하셨습니다!").color(NamedTextColor.GREEN));
                         if(!EventCoinManager.eventCoins.containsKey(player.getUniqueId()))
                             EventCoinManager.eventCoins.put(player.getUniqueId(), 0);
                         EventCoinManager.eventCoins.put(player.getUniqueId(), EventCoinManager.eventCoins.get(player.getUniqueId())+(int)(Math.random()*10));
@@ -127,15 +129,19 @@ public class PlayerActionListener implements Listener {
                     break;
             }
         }
-    }
 
-    /*
-    @EventHandler
-    public void onCommandExecute(ExecuteCommandEvent event){
-        if(!(event.getSender() instanceof Player player)) return;
-        if(event.getCommand().getLabel().equalsIgnoreCase("verify") || event.getCommand().getLabel().equalsIgnoreCase("인증") && event.getArgs().length == 1){
-            player.setAllowFlight(true);
+        for(@RegExp String slang : SlangManager.slang) {
+            event.message(event.message().replaceText(TextReplacementConfig.builder().replacement("*".repeat(slang.length())).match(slang).build()));
         }
     }
-     */
+
+    @EventHandler
+    public void onCommandExecute(ExecuteCommandEvent event){
+        if(event.getCommand().getLabel().equalsIgnoreCase("pl") || event.getCommand().getLabel().equalsIgnoreCase("plugins")) {
+            event.setCancelled(!event.getSender().isOp());
+            if (!event.getSender().isOp()){
+                event.getSender().sendMessage("§c§l서버의 정보를 조회할 수 없습니다!");
+            }
+        }
+    }
 }

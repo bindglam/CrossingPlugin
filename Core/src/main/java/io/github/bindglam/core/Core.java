@@ -16,6 +16,7 @@ import io.github.bindglam.ground.GroundManager;
 import io.github.bindglam.ground.GroundPlugin;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
+import net.momirealms.customcrops.api.CustomCropsPlugin;
 import net.roxeez.advancement.AdvancementManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -30,6 +31,7 @@ public class Core extends JavaPlugin {
     public MVWorldManager worldManager;
     public AdvancementManager advancementManager;
     public LuckPerms luckPerms;
+    public CustomCropsPlugin customCrops;
 
     @Override
     public void onEnable() {
@@ -39,6 +41,7 @@ public class Core extends JavaPlugin {
         worldManager = multiverseCore.getMVWorldManager();
         advancementManager = new AdvancementManager(this);
         luckPerms = LuckPermsProvider.get();
+        customCrops = CustomCropsPlugin.getInstance();
 
         this.advancementManager.register(new BossAdvancement());
         this.advancementManager.register(new BossAdvancement.AncientFighter());
@@ -68,6 +71,7 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EntityListener(), this);
         getServer().getPluginManager().registerEvents(new WorldListener(), this);
         getServer().getPluginManager().registerEvents(new ServerTickListener(), this);
+        getServer().getPluginManager().registerEvents(new PvPMapListener(), this);
 
         getServer().getPluginManager().registerEvents(new InteractNPCManager(), this);
         getServer().getPluginManager().registerEvents(new PluginItemManager(), this);
@@ -108,6 +112,7 @@ public class Core extends JavaPlugin {
         Objects.requireNonNull(getCommand("core-data")).setExecutor(new DataCommand());
         Objects.requireNonNull(getCommand("ban-player")).setExecutor(new WarnBanCommand());
         Objects.requireNonNull(getCommand("warn")).setExecutor(new WarnBanCommand());
+        Objects.requireNonNull(getCommand("announcement")).setExecutor(new AnnouncementCommand());
 
         Objects.requireNonNull(getCommand("crossemote")).setTabCompleter(new EmoteTabCompletion());
 
@@ -151,6 +156,8 @@ public class Core extends JavaPlugin {
         EventCoinManager.init();
         DonatePointManager.init();
         BanManager.init();
+        FlyManager.init();
+        PvPManager.init();
     }
 
     public static void saveData(boolean disabling){
@@ -167,6 +174,8 @@ public class Core extends JavaPlugin {
         DivingPointManager.save();
         DonatePointManager.save();
         BanManager.save();
+        FlyManager.save();
+        PvPManager.save();
         if(!disabling) {
             GroundPlugin.INSTANCE.saveConfig();
             Core.INSTANCE.saveConfig();

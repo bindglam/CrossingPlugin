@@ -8,11 +8,14 @@ import io.github.bindglam.core.managers.*;
 import io.github.bindglam.core.menu.blocks.EnhanceMenu;
 import io.github.bindglam.core.utils.CouponGenerator;
 import io.github.bindglam.economy.EconomyManager;
+import io.github.bindglam.ground.GroundManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -26,6 +29,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -35,6 +39,7 @@ public class ServerTickListener implements Listener {
 
     public static final List<Object> eventQuestionData = new ArrayList<>();
     public static final ConcurrentHashMap<UUID, Integer> pvpTimes = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<UUID, Integer> divingTimes = new ConcurrentHashMap<>();
     public static final List<UUID> pvpInGrounds = new ArrayList<>();
 
     public static void init(){
@@ -90,13 +95,15 @@ public class ServerTickListener implements Listener {
             for(Player player : Bukkit.getOnlinePlayers()){
                 switch ((EventQuestionType) eventQuestionData.get(0)){
                     case MATH:
-                        player.sendMessage(Component.text("[ 이벤트 ] ").color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD)
-                                .append(Component.text(eventQuestionData.get(1) + " + " + eventQuestionData.get(2) + " = ?").color(NamedTextColor.WHITE)));
+                        player.sendMessage(Component.text("[ 이벤트 ] ").color(NamedTextColor.YELLOW)
+                                .append(Component.text(eventQuestionData.get(1) + " + " + eventQuestionData.get(2) + " = ?").color(NamedTextColor.WHITE))
+                                .append(Component.text(" ← 답을 채팅에 입력하세요!").color(NamedTextColor.GOLD)));
                         break;
 
                     case COUPON:
-                        player.sendMessage(Component.text("[ 이벤트 ] ").color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD)
-                                .append(Component.text("쿠폰 코드 : " + eventQuestionData.get(1)).color(NamedTextColor.WHITE)));
+                        player.sendMessage(Component.text("[ 이벤트 ] ").color(NamedTextColor.YELLOW)
+                                .append(Component.text("쿠폰 코드 : " + eventQuestionData.get(1)).color(NamedTextColor.WHITE))
+                                .append(Component.text(" ← 이 코드를 채팅에 입력하세요!").color(NamedTextColor.GOLD)));
                         break;
                 }
             }
@@ -150,6 +157,15 @@ public class ServerTickListener implements Listener {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date = simpleDateFormat.format(new Date());
 
+        String season = Core.INSTANCE.customCrops.getAPI().getSeason(player.getWorld().getName()).getSeason();
+        season = switch (season) {
+            case "SPRING" -> "§e봄";
+            case "SUMMER" -> "§b여름";
+            case "AUTUMN" -> "§c가을";
+            case "WINTER" -> "§f겨울";
+            default -> season;
+        };
+
         board.updateLines(
                 new FontImageWrapper("mcemojis:mc_name_tag").getString() + " §2닉네임 §7: §8" + player.getName(),
                 new FontImageWrapper("mcemojis:mc_dragon_breath").getString() + " §b등급 §7: " + grade,
@@ -158,6 +174,8 @@ public class ServerTickListener implements Listener {
                 new FontImageWrapper("mcemojis:mc_nether_star").getString() + " §9잠수 포인트 §7: §b" + DivingPointManager.divingPoints.get(player.getUniqueId()) + "포인트",
                 new FontImageWrapper("mcemojis:mc_gold_nugget").getString() + " §e이벤트 포인트 §7: §e" + EventCoinManager.eventCoins.get(player.getUniqueId()) + "코인",
                 new FontImageWrapper("mcemojis:mc_diamond").getString() + " §d마일리지 §7: §5" + DonatePointManager.donatePoints.get(player.getUniqueId()) + "마일리지",
+                "",
+                new FontImageWrapper("mcemojis:mc_bell").getString() + " §6계절 §7: §f" + season,
                 "",
                 new FontImageWrapper("mcemojis:mc_clock").getString() + " §e" + date,
                 new FontImageWrapper("mcemojis:mc_filled_map").getString() + " §eMC-CROSS.MCV.KR " + new FontImageWrapper("mcemojis:mc_filled_map").getString()
@@ -250,6 +268,46 @@ public class ServerTickListener implements Listener {
                     player.sendActionBar(Component.text("PvP가 풀렸습니다!").color(TextColor.color(0, 255, 0)));
                 }
             }
+
+            if (!FlyManager.flyTimes.containsKey(player.getUniqueId()))
+                FlyManager.flyTimes.put(player.getUniqueId(), 0);
+            List<Object> data = GroundManager.isInGround(player);
+            boolean isInMyGround = false;
+            if(data != null){
+                UUID owner = GroundManager.grounds.get((Location) data.get(1));
+                if(Objects.equals(owner, player.getUniqueId()))
+                    isInMyGround = true;
+                if(GroundManager.grounders.containsKey((Location) data.get(1))) if(GroundManager.grounders.get((Location) data.get(1)).contains(player.getUniqueId()))
+                    isInMyGround = true;
+            }
+            if(player.isOp()){
+                player.setAllowFlight(true);
+            } else {
+                player.setAllowFlight(FlyManager.flyTimes.get(player.getUniqueId()) > 0 && !ServerTickListener.pvpTimes.containsKey(player.getUniqueId())
+                        && isInMyGround);
+            }
+            if(player.isFlying()) {
+                if (FlyManager.flyTimes.get(player.getUniqueId()) > 0) {
+                    player.sendActionBar(Component.text("남은 플라이 시간 : ").color(NamedTextColor.YELLOW)
+                            .append(Component.text(FlyManager.flyTimes.get(player.getUniqueId())/20 + "초").color(NamedTextColor.WHITE)));
+                    FlyManager.flyTimes.put(player.getUniqueId(), FlyManager.flyTimes.get(player.getUniqueId()) - 1);
+                }
+            }
+
+            if(!divingTimes.containsKey(player.getUniqueId()))
+                divingTimes.put(player.getUniqueId(), 0);
+            if(divingTimes.get(player.getUniqueId()) >= 120*20){
+                player.showTitle(Title.title(
+                        Component.text("< ").color(NamedTextColor.WHITE)
+                                .append(Component.text("잠수").color(NamedTextColor.BLUE))
+                                .append(Component.text(" >").color(NamedTextColor.WHITE)),
+                        Component.text("잠수 포인트 +1").color(NamedTextColor.WHITE),
+                        Title.Times.times(Duration.ofNanos(800), Duration.ofNanos(2000), Duration.ofNanos(800))
+                ));
+                DivingPointManager.divingPoints.put(player.getUniqueId(), DivingPointManager.divingPoints.get(player.getUniqueId())+1);
+                divingTimes.put(player.getUniqueId(), 0);
+            }
+            divingTimes.put(player.getUniqueId(), divingTimes.get(player.getUniqueId())+1);
         }
     }
 

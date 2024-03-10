@@ -10,6 +10,7 @@ repositories {
     maven("https://repo.purpurmc.org/snapshots")
     maven(url = "https://mvn.lumine.io/repository/maven-public/")
     maven(url = "https://jitpack.io")
+    maven(url = "https://maven.citizensnpcs.co/repo")
     mavenLocal()
 }
 
@@ -25,8 +26,11 @@ dependencies {
     compileOnly("net.luckperms:api:5.4")
     compileOnly(project(":Economy"))
     compileOnly(project(":Ground"))
+    compileOnly(project(":Battle"))
     compileOnly("io.lumine:Mythic-Dist:5.3.5")
     compileOnly("com.github.LoneDev6:API-ItemsAdder:3.6.1")
+    compileOnly("com.github.Xiao-MoMi:Custom-Crops:3.3.1.10")
+    compileOnly("net.citizensnpcs:citizens-main:2.0.33-SNAPSHOT")
 
     compileOnly("org.projectlombok:lombok:1.18.30")
     annotationProcessor("org.projectlombok:lombok:1.18.30")

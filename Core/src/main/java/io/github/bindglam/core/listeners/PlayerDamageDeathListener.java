@@ -1,6 +1,7 @@
 package io.github.bindglam.core.listeners;
 
 import dev.lone.itemsadder.api.CustomStack;
+import io.github.bindglam.battle.MapManager;
 import io.github.bindglam.core.Core;
 import io.github.bindglam.core.advancements.BossAdvancement;
 import io.github.bindglam.core.advancements.KillPlayerAdvancement;
@@ -45,9 +46,11 @@ public class PlayerDamageDeathListener implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent event){
         if(event.getPlayer().hasMetadata("NPC")) return;
-        event.deathMessage(Component.text("\uD83D\uDC80").color(TextColor.color(153, 0, 0)).decorate(TextDecoration.BOLD)
+        event.deathMessage(Component.text("\uD83D\uDC80").color(TextColor.color(153, 0, 0))
                 .append(Component.text(" | ").color(TextColor.color(255, 255, 255)).append(Objects.requireNonNull(event.deathMessage()).color(TextColor.color(255, 255, 102)))));
         Player player = event.getEntity();
+        if(MapManager.isInAnyMaps(player) != null) return;
+
         StatsManager.Stats stats = StatsManager.getStats(player.getUniqueId());
 
         if (stats != null && stats.pvpLv >= 25) {
@@ -146,7 +149,7 @@ public class PlayerDamageDeathListener implements Listener {
             }
         }
 
-        if(event.getEntity() instanceof Player player && event.getDamager() instanceof Player damager) {
+        if(event.getEntity() instanceof Player player && event.getDamager() instanceof Player damager && (MapManager.isInAnyMaps(damager) == null && MapManager.isInAnyMaps(player) == null)) {
             PrivateSettingManager.PrivateSetting setting = PrivateSettingManager.loadPlayer(player.getUniqueId());
             PrivateSettingManager.PrivateSetting damagerSetting = PrivateSettingManager.loadPlayer(damager.getUniqueId());
 
@@ -168,13 +171,13 @@ public class PlayerDamageDeathListener implements Listener {
             }
 
             if(!(boolean) setting.settings.get("PvP")){
-                damager.sendMessage(Component.text(player.getName() + "님은 PvP를 싫어하십니다!").color(TextColor.color(255, 0, 0)).decorate(TextDecoration.BOLD));
+                damager.sendMessage(Component.text(player.getName() + "님은 PvP를 싫어하십니다!").color(TextColor.color(255, 0, 0)));
                 event.setCancelled(true);
                 return;
             }
 
             if(!(boolean) damagerSetting.settings.get("PvP")){
-                damager.sendMessage(Component.text("당신의 PvP 설정이 꺼짐으로 되어있습니다!").color(TextColor.color(255, 0, 0)).decorate(TextDecoration.BOLD));
+                damager.sendMessage(Component.text("당신의 PvP 설정이 꺼짐으로 되어있습니다!").color(TextColor.color(255, 0, 0)));
                 event.setCancelled(true);
                 return;
             }

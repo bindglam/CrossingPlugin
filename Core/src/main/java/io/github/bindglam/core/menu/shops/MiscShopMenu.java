@@ -33,6 +33,7 @@ public class MiscShopMenu extends AbstractShopMenu {
         put(Material.PIG_SPAWN_EGG, 800000.0);
         put(Material.CHICKEN_SPAWN_EGG, 800000.0);
         put(Material.COW_SPAWN_EGG, 800000.0);
+        put(Material.SHULKER_SPAWN_EGG, 1500000000.0);
         put(Material.TNT, 10000.0);
         put(Material.SNOWBALL, 10.0);
         put(Material.EGG, 10.0);
@@ -61,6 +62,7 @@ public class MiscShopMenu extends AbstractShopMenu {
         put(Material.SALMON_BUCKET, 100.0);
         put(Material.PUFFERFISH_BUCKET, 100.0);
         put(Material.COD_BUCKET, 100.0);
+        put(Material.SADDLE, 5000000.0);
     }};
 
     public static LinkedHashMap<ItemStack, Double> itemStacks = new LinkedHashMap<>() {{
@@ -72,7 +74,6 @@ public class MiscShopMenu extends AbstractShopMenu {
         put(AdvItemCreator.getEnchantedBook(Enchantment.DIG_SPEED, 1), 1000000.0);
         put(AdvItemCreator.getEnchantedBook(Enchantment.RIPTIDE, 1), 50000000.0);
         put(AdvItemCreator.getEnchantedBook(Enchantment.LOYALTY, 1), 50000000.0);
-        put(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE), 50000.0);
     }};
 
     public MiscShopMenu(){

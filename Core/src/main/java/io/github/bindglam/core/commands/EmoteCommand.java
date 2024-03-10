@@ -31,9 +31,9 @@ public class EmoteCommand implements CommandExecutor {
             if(emotes.containsKey(args[0])){
                 CustomPlayer.playEmote(player, emotes.get(args[0]));
                 player.sendMessage(Component.text("감정표현 ").color(TextColor.color(190, 255, 177))
-                        .append(Component.text(args[0]).color(TextColor.color(0, 255, 0)).decorate(TextDecoration.BOLD))
+                        .append(Component.text(args[0]).color(TextColor.color(0, 255, 0)))
                         .append(Component.text("을(를) 사용했습니다!").color(TextColor.color(190, 255, 177))));
-                player.sendMessage(Component.keybind("key.sneak").color(TextColor.color(255, 255, 177)).decorate(TextDecoration.BOLD)
+                player.sendMessage(Component.keybind("key.sneak").color(TextColor.color(255, 255, 177))
                         .append(Component.text("로 감정표현을 멈출 수 있습니다!").color(TextColor.color(0, 200, 255))));
             } else {
                 player.sendMessage(Component.text("입력한 이름의 감정표현은 없습니다.").color(TextColor.color(255, 0, 0)));

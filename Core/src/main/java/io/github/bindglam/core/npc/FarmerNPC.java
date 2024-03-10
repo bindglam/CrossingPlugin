@@ -4,11 +4,16 @@ import io.github.bindglam.core.menu.shops.CropShopMenu;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class FarmerNPC extends InteractNPC.TalkNPC {
     public FarmerNPC() {
-        super("§6농부", List.of("신선한 농작물 팝니다!", "아이고, 학생!", "나의 농작물들을 사러왔는감?"), 2.0f);
+        super("§6농부",new HashMap<>(){{
+            put("신선한 농작물 팝니다!", DialogueAction.TALK);
+            put("아이고, 학생!", DialogueAction.TALK);
+            put("나의 농작물들을 사러왔는감?", DialogueAction.TALK);
+        }}, 2.0f);
     }
 
     @Override

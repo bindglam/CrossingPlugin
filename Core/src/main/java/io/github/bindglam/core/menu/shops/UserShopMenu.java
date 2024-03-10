@@ -54,7 +54,7 @@
 /*  65 */             for (UUID uuid : UserShopManager.data.keySet()) {
 /*  66 */               /*  67 */
         /*  68 */
-        contents[i] = (new AdvItemCreator((ItemStack) UserShopManager.data.get(uuid).get(0))).setLore(Component.empty(), Component.text("가격 : " + UserShopManager.data.get(uuid).get(1) + "원").color(TextColor.color(255, 200, 0)).decorate(TextDecoration.BOLD), Component.text("소유자 : " + Bukkit.getOfflinePlayer((UUID) UserShopManager.data.get(uuid).get(2)).getName()).color(NamedTextColor.BLUE).decorate(TextDecoration.BOLD)).addPersistentData("cost", (Integer) UserShopManager.data.get(uuid).get(1))
+        contents[i] = (new AdvItemCreator((ItemStack) UserShopManager.data.get(uuid).get(0))).setLore(Component.empty(), Component.text("가격 : " + UserShopManager.data.get(uuid).get(1) + "원").color(TextColor.color(255, 200, 0)), Component.text("소유자 : " + Bukkit.getOfflinePlayer((UUID) UserShopManager.data.get(uuid).get(2)).getName()).color(NamedTextColor.BLUE)).addPersistentData("cost", (Integer) UserShopManager.data.get(uuid).get(1))
 /*  70 */                 .addPersistentData("uuid", uuid.toString())
 /*  71 */                 .addPersistentData("owner", UserShopManager.data.get(uuid).get(2).toString())
 /*  72 */                 .getItemStack();
@@ -92,11 +92,11 @@
 /*     */                 break;
 /*     */               case 46:
 /* 104 */                 view.getPlayer().closeInventory();
-/* 105 */                 view.getPlayer().sendMessage(((TextComponent)Component.text("/유저상점 등록 <가격> <- 손에 든 아이템을 유저상점에 등록합니다.").color((TextColor)NamedTextColor.YELLOW)).decorate(TextDecoration.BOLD));
+/* 105 */                 view.getPlayer().sendMessage(((TextComponent)Component.text("/유저상점 등록 <가격> <- 손에 든 아이템을 유저상점에 등록합니다.").color((TextColor)NamedTextColor.YELLOW)));
 /*     */                 break;
 /*     */               case 47:
 /* 110 */                 view.getPlayer().closeInventory();
-/* 111 */                 view.getPlayer().sendMessage(((TextComponent)Component.text("/유저상점 삭제 <ID> <- 입력한 ID의 아이템을 유저상점에서 삭제합니다.").color((TextColor)NamedTextColor.YELLOW)).decorate(TextDecoration.BOLD));
+/* 111 */                 view.getPlayer().sendMessage(((TextComponent)Component.text("/유저상점 삭제 <ID> <- 입력한 ID의 아이템을 유저상점에서 삭제합니다.").color((TextColor)NamedTextColor.YELLOW)));
 /*     */                 break;
 /*     */               case 48:
 /* 116 */                 view.getPlayer().closeInventory();
@@ -113,7 +113,7 @@
 /* 129 */                 ownerUUID = (String)meta.getPersistentDataContainer().get(ownerKey, PersistentDataType.STRING);
 /* 130 */                 itemUUID = UUID.fromString((String)meta.getPersistentDataContainer().get(uuidKey, PersistentDataType.STRING));
 /* 132 */                 if (EconomyManager.getAmount(view.getPlayer().getUniqueId()) < cost) {
-/* 133 */                   view.getPlayer().sendMessage(((TextComponent)Component.text("소지금이 부족합니다!").color(TextColor.color(255, 0, 0))).decorate(TextDecoration.BOLD));
+/* 133 */                   view.getPlayer().sendMessage(((TextComponent)Component.text("소지금이 부족합니다!").color(TextColor.color(255, 0, 0))));
 /*     */                   return;
 /*     */                 } 
 /* 137 */                 owner = Bukkit.getOfflinePlayer(UUID.fromString(Objects.<String>requireNonNull(ownerUUID)));

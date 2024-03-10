@@ -2,6 +2,7 @@ package io.github.bindglam.core.menu.shops;
 
 import net.minecraft.world.item.CreativeModeTab;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.LinkedHashMap;
 
@@ -51,7 +52,9 @@ public class ArchitectureShopMenu extends AbstractShopMenu {
         put(Material.QUARTZ_BLOCK, 45.0);
         put(Material.SMOOTH_QUARTZ, 50.0);
         put(Material.ANDESITE, 2.0);
+    }};
 
+    public static LinkedHashMap<ItemStack, Double> itemStacks = new LinkedHashMap<>() {{
     }};
 
     public ArchitectureShopMenu(){
@@ -61,5 +64,10 @@ public class ArchitectureShopMenu extends AbstractShopMenu {
     @Override
     public LinkedHashMap<Material, Double> getItems() {
         return items;
+    }
+
+    @Override
+    public LinkedHashMap<ItemStack, Double> getItemStacks() {
+        return itemStacks;
     }
 }

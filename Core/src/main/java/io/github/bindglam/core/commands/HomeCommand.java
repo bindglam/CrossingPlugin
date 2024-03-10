@@ -17,13 +17,13 @@ public class HomeCommand implements CommandExecutor {
 
         if(command.getLabel().equalsIgnoreCase("home")){
             if(!HomeManager.homes.containsKey(player.getUniqueId())){
-                player.sendMessage(Component.text("가지고 있는 홈이 없습니다!").color(TextColor.color(255, 0, 0)).decorate(TextDecoration.BOLD));
+                player.sendMessage(Component.text("가지고 있는 홈이 없습니다!").color(TextColor.color(255, 0, 0)));
                 return false;
             }
             TeleportUtil.teleportAfterCooldown(player, HomeManager.homes.get(player.getUniqueId()), 5, false, true);
         } else if(command.getLabel().equalsIgnoreCase("sethome")){
             HomeManager.homes.put(player.getUniqueId(), player.getLocation());
-            player.sendMessage(Component.text("홈을 만들었습니다!").color(TextColor.color(0, 255, 0)).decorate(TextDecoration.BOLD));
+            player.sendMessage(Component.text("홈을 만들었습니다!").color(TextColor.color(0, 255, 0)));
         }
         return true;
     }

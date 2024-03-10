@@ -29,7 +29,7 @@
 /*    */             int cost;
 /* 31 */             ItemStack itemStack = player.getInventory().getItemInMainHand();
 /* 32 */             if (itemStack.getType() == Material.AIR) {
-/* 33 */               player.sendMessage(((TextComponent)Component.text("손에 들고있는 아이템이 없습니다!").color(TextColor.color(255, 0, 0))).decorate(TextDecoration.BOLD));
+/* 33 */               player.sendMessage(((TextComponent)Component.text("손에 들고있는 아이템이 없습니다!").color(TextColor.color(255, 0, 0))));
 /* 34 */               return false;
 /*    */             } 
 /*    */             try {
@@ -39,7 +39,7 @@
 /* 41 */               return false;
 /*    */             } 
 /* 44 */             UserShopManager.data.put(UUID.randomUUID(), List.of(itemStack, Integer.valueOf(cost), player.getUniqueId()));
-/* 45 */             player.sendMessage(((TextComponent)Component.text("성공적으로 아이템을 등록시켰습니다!").color(TextColor.color(0, 255, 0))).decorate(TextDecoration.BOLD));
+/* 45 */             player.sendMessage(((TextComponent)Component.text("성공적으로 아이템을 등록시켰습니다!").color(TextColor.color(0, 255, 0))));
 /* 46 */             player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
 /* 48 */             AdvancementUtil.awardAdvancement(player, new NamespacedKey((Plugin)Core.INSTANCE, "usershop"), "complete");
 /* 49 */           } else if (args[0].equalsIgnoreCase("삭제")) {
@@ -57,12 +57,12 @@
 /* 61 */               return false;
 /*    */             } 
 /* 64 */             player.getInventory().addItem(new ItemStack[] {(ItemStack) UserShopManager.data.get(UserShopManager.getItemUUID(id)).get(0)});
-/* 65 */             player.sendMessage(((TextComponent)Component.text("성공적으로 아이템을 삭제했습니다!").color(TextColor.color(255, 255, 0))).decorate(TextDecoration.BOLD));
+/* 65 */             player.sendMessage(((TextComponent)Component.text("성공적으로 아이템을 삭제했습니다!").color(TextColor.color(255, 255, 0))));
 /* 66 */             UserShopManager.data.remove(UserShopManager.getItemUUID(id));
 /*    */           } 
 /* 69 */         } else if (args.length == 1) {
 /* 70 */           if (args[0].equalsIgnoreCase("목록")) {
-/* 71 */             player.sendMessage(((TextComponent)Component.text("- 등록한 아이템 ID 목록 -").color(TextColor.color(255, 255, 255))).decorate(TextDecoration.BOLD));
+/* 71 */             player.sendMessage(((TextComponent)Component.text("- 등록한 아이템 ID 목록 -").color(TextColor.color(255, 255, 255))));
 /* 72 */             List<Integer> ids = UserShopManager.getItemIDList(player.getUniqueId());
 /* 73 */             for (Integer id : ids) {
 /* 74 */               ItemStack itemStack = (ItemStack) UserShopManager.data.get(UserShopManager.getItemUUID(id.intValue())).get(0);

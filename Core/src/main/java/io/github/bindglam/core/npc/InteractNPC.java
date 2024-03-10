@@ -12,14 +12,18 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class InteractNPC {
     public String name;
@@ -35,31 +39,17 @@ public abstract class InteractNPC {
     public abstract void onInteract(PlayerInteractEntityEvent event);
 
     public static class TalkNPC extends InteractNPC {
-        public static final HashMap<String, TalkNPC> talkingPlayers = new HashMap<>();
-        public static final List<String> yesNoPlayers = new ArrayList<>();
-        private final List<String> dialogue;
-        private final float delay;
-        private static final ConcurrentHashMap<String, Integer> index = new ConcurrentHashMap<>();
-        private boolean canAnswer = false;
+        public static final HashMap<UUID, TalkNPC> talkingPlayers = new HashMap<>();
+        public static final List<UUID> yesNoPlayers = new ArrayList<>();
+        public static final HashMap<UUID, Integer> index = new HashMap<>();
+        public static final HashMap<UUID, Integer> tasks = new HashMap<>();
+        public HashMap<String, DialogueAction> dialogue;
+        public float delay;
 
-        public TalkNPC(String name, List<String> dialogue, float delay) {
+        public TalkNPC(String name, HashMap<String, DialogueAction> dialogue, float delay) {
             super(name);
             this.dialogue = dialogue;
             this.delay = delay;
-        }
-
-        public TalkNPC(String name, List<String> dialogue, float delay, boolean canAnswer) {
-            super(name);
-            this.dialogue = dialogue;
-            this.delay = delay;
-            this.canAnswer = canAnswer;
-        }
-
-        public TalkNPC(Component name, List<String> dialogue, float delay, boolean canAnswer) {
-            super(name);
-            this.dialogue = dialogue;
-            this.delay = delay;
-            this.canAnswer = canAnswer;
         }
 
         public void onTalk(Player talker, int index) {}
@@ -68,6 +58,7 @@ public abstract class InteractNPC {
 
         protected void sendYesNo(Player player){
             Bukkit.getScheduler().scheduleSyncDelayedTask(Core.INSTANCE, () -> {
+                if(yesNoPlayers.contains(player.getUniqueId())) return;
                 TextComponent yesMessage = new TextComponent("[ 예 ] ");
                 yesMessage.setColor(ChatColor.GREEN);
                 yesMessage.setBold(true);
@@ -79,46 +70,58 @@ public abstract class InteractNPC {
                 yesMessage.addExtra(noMessage);
                 player.spigot().sendMessage(yesMessage);
 
-                talkingPlayers.put(player.getName(), this);
-                yesNoPlayers.add(player.getName());
+                talkingPlayers.put(player.getUniqueId(), this);
+                yesNoPlayers.add(player.getUniqueId());
             }, 0L);
         }
 
-        protected void talk(Player player, String message){
+        protected void talk(Player player, String message, boolean onlyTalk){
             Bukkit.getScheduler().scheduleSyncDelayedTask(Core.INSTANCE, () -> {
                 player.sendMessage(name + " §7: §f§l" + message);
-                onTalk(player, index.get(player.getName()));
+                if (!onlyTalk) {
+                    onTalk(player, index.get(player.getUniqueId()));
+                }
             }, 0L);
         }
 
-        protected void talk(Player player, String message, long delay){
-            Bukkit.getScheduler().runTaskLater(Core.INSTANCE, () -> talk(player, message), delay);
+        protected void talk(Player player, String message, long delay, boolean onlyTalk){
+            Bukkit.getScheduler().runTaskLater(Core.INSTANCE, () -> talk(player, message, onlyTalk), delay);
         }
 
         @Override
         public void onInteract(PlayerInteractEntityEvent event) {
             Player player = event.getPlayer();
-            if(talkingPlayers.containsKey(player.getName()) || yesNoPlayers.contains(player.getName())) return;
-            talkingPlayers.put(player.getName(), this);
-            index.put(player.getName(), 0);
+            if(talkingPlayers.containsKey(player.getUniqueId()) || yesNoPlayers.contains(player.getUniqueId())) return;
+            if(tasks.containsKey(player.getUniqueId())){
+                Bukkit.getScheduler().cancelTask(tasks.get(player.getUniqueId()));
+                tasks.remove(player.getUniqueId());
+                return;
+            }
 
-            new Thread(() -> {
-                while(true){
-                    if(index.get(player.getName()) >= dialogue.size()){
-                        if(!canAnswer) talkingPlayers.remove(player.getName());
-                        index.put(player.getName(), 0);
-                        Bukkit.getScheduler().scheduleSyncDelayedTask(Core.INSTANCE, () -> onAfterTalk(player), 0L);
-                        break;
-                    }
+            talkingPlayers.put(player.getUniqueId(), this);
+            index.put(player.getUniqueId(), 0);
 
-                    talk(player, dialogue.get(index.get(player.getName())));
-                    index.put(player.getName(), index.get(player.getName())+1);
-                    try {
-                        Thread.sleep((long) (delay*1000));
-                    } catch (InterruptedException ignored) {
+            int taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Core.INSTANCE, () -> {
+                if(!yesNoPlayers.contains(player.getUniqueId()) && index.containsKey(player.getUniqueId())) {
+                    if (index.get(player.getUniqueId()) >= dialogue.size()) {
+                        talkingPlayers.remove(player.getUniqueId());
+                        index.remove(player.getUniqueId());
+                        onAfterTalk(player);
+                        return;
                     }
+                    talk(player, dialogue.keySet().stream().toList().get(index.get(player.getUniqueId())), false);
+                    if (dialogue.values().stream().toList().get(index.get(player.getUniqueId())) == DialogueAction.YES_NO) {
+                        sendYesNo(player);
+                    }
+                    index.put(player.getUniqueId(), index.get(player.getUniqueId()) + 1);
                 }
-            }).start();
+            }, 0L, (long) ((int) delay*20f));
+            tasks.put(player.getUniqueId(), taskId);
+        }
+
+        public enum DialogueAction {
+            TALK,
+            YES_NO,
         }
     }
 }

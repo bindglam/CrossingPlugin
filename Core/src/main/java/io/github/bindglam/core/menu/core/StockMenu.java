@@ -95,7 +95,7 @@ public class StockMenu extends Menu {
 
                     if(clickType == ClickType.RIGHT && (int) data.get(6) >= 1){
                         if(EconomyManager.getAmount(view.getPlayer().getUniqueId()) < (int) data.get(1)){
-                            view.getPlayer().sendMessage(Component.text("돈이 부족합니다!").color(TextColor.color(255, 0, 0)).decorate(TextDecoration.BOLD));
+                            view.getPlayer().sendMessage(Component.text("돈이 부족합니다!").color(TextColor.color(255, 0, 0)));
                             return;
                         }
                         data.set(6, (int) data.get(6) - 1);
@@ -106,7 +106,7 @@ public class StockMenu extends Menu {
                         AdvancementUtil.awardAdvancement(view.getPlayer(), new NamespacedKey(Core.INSTANCE, StockAdvancement.ID), "complete");
                     } else if(clickType == ClickType.SHIFT_RIGHT && (int) data.get(6) >= 10){
                         if(EconomyManager.getAmount(view.getPlayer().getUniqueId()) < (int) data.get(1)*10){
-                            view.getPlayer().sendMessage(Component.text("돈이 부족합니다!").color(TextColor.color(255, 0, 0)).decorate(TextDecoration.BOLD));
+                            view.getPlayer().sendMessage(Component.text("돈이 부족합니다!").color(TextColor.color(255, 0, 0)));
                             return;
                         }
                         data.set(6, (int) data.get(6) - 10);

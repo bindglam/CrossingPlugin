@@ -103,7 +103,7 @@ public class GroundMenu extends Menu implements Listener {
                         view.getPlayer().closeInventory();
                         chattingGroundNumber.add(view.getPlayer().getUniqueId());
                         chattingAddGrounders.add(view.getPlayer().getUniqueId());
-                        view.getPlayer().sendMessage(Component.text("채팅에 땅 번호를 입력해주세요!").color(TextColor.color(0, 255, 0)).decorate(TextDecoration.BOLD));
+                        view.getPlayer().sendMessage(Component.text("채팅에 땅 번호를 입력해주세요!").color(TextColor.color(0, 255, 0)));
                         break;
 
                     case BOOK:
@@ -120,14 +120,14 @@ public class GroundMenu extends Menu implements Listener {
                         view.getPlayer().closeInventory();
                         chattingGroundNumber.add(view.getPlayer().getUniqueId());
                         chattingRemoveGround.add(view.getPlayer().getUniqueId());
-                        view.getPlayer().sendMessage(Component.text("채팅에 땅 번호를 입력해주세요!").color(TextColor.color(0, 255, 0)).decorate(TextDecoration.BOLD));
+                        view.getPlayer().sendMessage(Component.text("채팅에 땅 번호를 입력해주세요!").color(TextColor.color(0, 255, 0)));
                         break;
 
                     case STRUCTURE_VOID:
                         view.getPlayer().closeInventory();
                         chattingGroundNumber.add(view.getPlayer().getUniqueId());
                         chattingRemoveGrounders.add(view.getPlayer().getUniqueId());
-                        view.getPlayer().sendMessage(Component.text("채팅에 땅 번호를 입력해주세요!").color(TextColor.color(0, 255, 0)).decorate(TextDecoration.BOLD));
+                        view.getPlayer().sendMessage(Component.text("채팅에 땅 번호를 입력해주세요!").color(TextColor.color(0, 255, 0)));
                         break;
                 }
             }
@@ -150,7 +150,7 @@ public class GroundMenu extends Menu implements Listener {
             try {
                 number = Integer.parseInt(message);
             } catch (NumberFormatException e) {
-                player.sendMessage(Component.text("숫자가 아닙니다!").color(TextColor.color(255, 0, 0)).decorate(TextDecoration.BOLD));
+                player.sendMessage(Component.text("숫자가 아닙니다!").color(TextColor.color(255, 0, 0)));
                 return;
             }
 
@@ -163,7 +163,7 @@ public class GroundMenu extends Menu implements Listener {
             event.setCancelled(true);
             // 땅원 작업시, 땅 번호 확인
             chattingGroundNumber.remove(player.getUniqueId());
-            player.sendMessage(Component.text("땅원의 이름을 입력해주세요!").color(TextColor.color(0, 255, 0)).decorate(TextDecoration.BOLD));
+            player.sendMessage(Component.text("땅원의 이름을 입력해주세요!").color(TextColor.color(0, 255, 0)));
         } else if(chattingAddGrounders.contains(player.getUniqueId()) && !chattingGroundNumber.contains(player.getUniqueId())){
             event.setCancelled(true);
             //땅원 추가

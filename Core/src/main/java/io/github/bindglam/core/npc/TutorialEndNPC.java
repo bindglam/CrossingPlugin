@@ -4,11 +4,14 @@ import io.github.bindglam.core.utils.TeleportUtil;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class TutorialEndNPC extends InteractNPC.TalkNPC {
     public TutorialEndNPC() {
-        super("§b§l튜토리얼 §f종료!", List.of("즐거운 게임 바랍니다!"), 2.0f);
+        super("§b§l튜토리얼 §f종료!", new HashMap<>(){{
+            put("즐거운 게임 바랍니다!", DialogueAction.TALK);
+        }}, 2.0f);
     }
 
     @Override

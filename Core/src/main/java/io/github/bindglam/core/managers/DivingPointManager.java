@@ -14,6 +14,7 @@ import java.util.List;
 /*    */ public class DivingPointManager
 /*    */ {
 /* 12 */   public static final HashMap<UUID, Integer> divingPoints = new HashMap<>();
+@Deprecated
 /* 13 */   public static final HashMap<UUID, Integer> divingTimes = new HashMap<>();
 /*    */   
 /*    */   public static void init() {
@@ -22,7 +23,7 @@ import java.util.List;
 /*    */           UUID uuid = UUID.fromString(str.split(":")[0]);
                     try {
                         /*    */
-                        Integer point = Integer.valueOf(Integer.parseInt(str.split(":")[1]));
+                        Integer point = Integer.parseInt(str.split(":")[1]);
                         /*    */
                         divingPoints.put(uuid, point);
                     } catch (NumberFormatException ignored){

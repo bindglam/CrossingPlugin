@@ -142,7 +142,7 @@ public class GroundPlugin extends JavaPlugin {
             player.sendMessage(Component.text("땅 갯수 : " + GroundManager.getGroundCount(player.getUniqueId())).color(TextColor.color(255, 255, 0)));
             player.sendMessage(Component.text("다음 땅 생성시, 비용 : " + GroundManager.getGroundCount(player.getUniqueId())*50000).color(TextColor.color(255, 255, 0)));
         } else {
-            player.sendMessage(Component.text(" - 사용법 - ").color(TextColor.color(200, 150, 0)).decorate(TextDecoration.BOLD));
+            player.sendMessage(Component.text(" - 사용법 - ").color(TextColor.color(200, 150, 0)));
             player.sendMessage(Component.text("/땅 생성").color(TextColor.color(255, 255, 255)));
             player.sendMessage(Component.text("/땅 삭제 <땅 번호>").color(TextColor.color(255, 255, 255)));
             player.sendMessage(Component.text("/땅 목록").color(TextColor.color(255, 255, 255)));

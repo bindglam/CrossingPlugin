@@ -10,14 +10,14 @@ public class YesNoCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!command.getLabel().equalsIgnoreCase("yescmd") && !command.getLabel().equalsIgnoreCase("nocmd") || !(sender instanceof Player player)) return false;
-        if(!InteractNPC.TalkNPC.talkingPlayers.containsKey(player.getName()) || !InteractNPC.TalkNPC.yesNoPlayers.contains(player.getName())) return false;
+        if(!InteractNPC.TalkNPC.talkingPlayers.containsKey(player.getUniqueId()) || !InteractNPC.TalkNPC.yesNoPlayers.contains(player.getUniqueId())) return false;
 
         if(command.getLabel().equalsIgnoreCase("yescmd"))
-            InteractNPC.TalkNPC.talkingPlayers.get(player.getName()).onAnswerReceive(player, "yes");
+            InteractNPC.TalkNPC.talkingPlayers.get(player.getUniqueId()).onAnswerReceive(player, "yes");
         else if(command.getLabel().equalsIgnoreCase("nocmd"))
-            InteractNPC.TalkNPC.talkingPlayers.get(player.getName()).onAnswerReceive(player, "no");
+            InteractNPC.TalkNPC.talkingPlayers.get(player.getUniqueId()).onAnswerReceive(player, "no");
 
-        InteractNPC.TalkNPC.yesNoPlayers.remove(player.getName());
+        InteractNPC.TalkNPC.yesNoPlayers.remove(player.getUniqueId());
         return true;
     }
 }

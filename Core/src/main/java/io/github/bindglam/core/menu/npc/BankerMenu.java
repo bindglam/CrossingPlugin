@@ -119,7 +119,7 @@ public class BankerMenu extends Menu implements Listener {
                             break;
                         }
 
-                        view.getPlayer().sendMessage(Component.text("채팅에 입금할 액수를 입력해주세요!").color(TextColor.color(0, 255, 0)).decorate(TextDecoration.BOLD));
+                        view.getPlayer().sendMessage(Component.text("채팅에 입금할 액수를 입력해주세요!").color(TextColor.color(0, 255, 0)));
                         signingPlayers.put(view.getPlayer().getName(), 1);
                         break;
 
@@ -130,7 +130,7 @@ public class BankerMenu extends Menu implements Listener {
                             break;
                         }
 
-                        view.getPlayer().sendMessage(Component.text("채팅에 출금할 액수를 입력해주세요!").color(TextColor.color(0, 255, 0)).decorate(TextDecoration.BOLD));
+                        view.getPlayer().sendMessage(Component.text("채팅에 출금할 액수를 입력해주세요!").color(TextColor.color(0, 255, 0)));
                         signingPlayers.put(view.getPlayer().getName(), 2);
                         break;
                 }

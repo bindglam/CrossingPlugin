@@ -1,6 +1,7 @@
 /*    */ package io.github.bindglam.core.utils;
 /*    */ 
-/*    */ import io.github.bindglam.core.commands.BackToCommand;
+/*    */ import io.github.bindglam.battle.MapManager;
+import io.github.bindglam.core.commands.BackToCommand;
 /*    */ import java.util.Objects;
 /*    */ import java.util.concurrent.CopyOnWriteArrayList;
 /*    */ import java.util.concurrent.atomic.AtomicInteger;
@@ -25,6 +26,10 @@
 /*    */   }
 /*    */   
 /*    */   public static void teleportAfterCooldown(Player player, Location loc, Integer time, boolean canBack, boolean canGoSameWorld) {
+    if(MapManager.isInAnyMaps(player) != null){
+        player.sendMessage("§cPvP장에서는 순간이동이 불가능합니다.");
+        return;
+    }
 /* 28 */     if (teleportingPlayers.contains(player.getName())) {
 /* 29 */       player.sendMessage("§c이미 순간이동을 하고 있습니다.");
 /*    */       return;

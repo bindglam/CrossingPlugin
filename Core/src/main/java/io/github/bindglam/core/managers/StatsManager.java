@@ -95,7 +95,7 @@ public class StatsManager {
 
     private static void levelUp(String statsName, int statsLv, Player player){
         player.sendMessage(Component.text(statsName + " 스텟이 ").color(TextColor.color(0, 255, 0))
-                .append(Component.text("레벨업").color(TextColor.color(255, 255, 0)).decorate(TextDecoration.BOLD))
+                .append(Component.text("레벨업").color(TextColor.color(255, 255, 0)))
                 .append(Component.text("하였습니다! ( Lv." + statsLv + " )").color(TextColor.color(0, 255, 0))));
         player.playSound(player.getLocation(), "block.enchantment_table.use", 120f, 1.2f);
         player.playSound(player.getLocation(), "entity.player.levelup", 100f, 1.2f);

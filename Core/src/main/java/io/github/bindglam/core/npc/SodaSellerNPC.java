@@ -4,11 +4,15 @@ import io.github.bindglam.core.menu.shops.MiscShopMenu;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class SodaSellerNPC extends InteractNPC.TalkNPC {
     public SodaSellerNPC() {
-        super("§d음료수 상인", List.of("학생! 피곤해 보이는구만?", "음료수들 구경하고 가~"), 2.0f);
+        super("§d음료수 상인", new HashMap<>(){{
+            put("학생! 피곤해 보이는구만?", DialogueAction.TALK);
+            put("음료수들 구경하고 가~", DialogueAction.TALK);
+        }}, 2.0f);
     }
 
     @Override
